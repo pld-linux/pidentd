@@ -15,7 +15,7 @@ Patch0:		http://www.imasy.or.jp/~ume/ipv6/pidentd-3.1a14-ipv6-based-on-19990720.
 Patch1:		pidentd-DESTDIR.patch
 Patch2:		pident-ip6-ip4-fix.patch
 Prereq:		rc-inetd >= 0.8.1
-BuildRoot:	/tmp/%{name}-%{version}-%{release}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sysconfdir	/etc
 
