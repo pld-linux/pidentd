@@ -4,7 +4,7 @@ Summary(fr):	Démon Internet : autorisation, identification de l'utilisateur
 Summary(pl):	Demon Internetowy: autoryzacja, identyfikacja u¿ytkownika
 Summary(tr):	Internet kullanýcý saptama süreci
 Name:		pidentd
-Version:	3.1a19
+Version:	3.1a22
 Release:	1
 License:	Public domain
 Group:		Networking/Daemons
@@ -13,7 +13,6 @@ Group(pl):	Sieciowe/Serwery
 Source0:	ftp://ftp.lysator.liu.se/pub/ident/servers/test/%{name}-%{version}.tar.gz
 Source1:	%{name}.inetd
 Patch0:		%{name}-DESTDIR.patch
-Patch1:		%{name}-ipv6.patch
 BuildRequires:	autoconf
 Prereq:		rc-inetd >= 0.8.1
 Provides:	identserver
@@ -54,11 +53,10 @@ Baðlantý kuran sürecin kullanýcý ismini geri döndürür.
 %prep
 %setup  -q
 %patch0 -p1
-%patch1 -p1
 
 %build
-autoconf
-%configure
+#autoconf
+%configure2_13
 %{__make}
 
 %install
