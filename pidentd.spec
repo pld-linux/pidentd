@@ -5,7 +5,7 @@ Summary(pl):	Demon Internetowy: autoryzacja, identyfikacja u¿ytkownika
 Summary(tr):	Internet kullanýcý saptama süreci
 Name:		pidentd
 Version:	3.1a14
-Release:	7
+Release:	8
 Copyright:	Public domain
 Group:		Networking
 Group(pl):	Sieciowe
