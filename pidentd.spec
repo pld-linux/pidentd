@@ -4,6 +4,8 @@ Version:     3.1a12
 Release:     1
 URL:         ftp://ftp.lysator.liu.se/pub/ident/servers
 Source:      %{name}-%{version}.tar.gz
+#Patch:	     http://www.imasy.or.jp/~ume/ipv6/pidentd-3.1a11-ipv6-19990720.diff.gz
+Patch:	     pidentd-3.1a12-ipv6-19990720-PLD.patch
 Copyright:   Public domain
 Group:       Networking
 Group(pl):   Sieciowe
@@ -39,11 +41,13 @@ kuran sürecin kullanýcý ismini geri döndürür.
 
 %prep
 %setup -q
+%patch -p1
 
 %build
 CFLAGS="$RPM_OPT_FLAGS" LDFLAGS=-s \
 	./configure \
 	--with-threads 	\
+	--enable-ipv6 \
 	--prefix=/usr \
 	--sysconfdir=/etc \
 	--mandir=/usr/share/man 
