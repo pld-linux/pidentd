@@ -91,4 +91,4 @@ fi
 %attr(755,root,root) %{_sbindir}/*
 %{_mandir}/man*/*
 %config(noreplace) %verify(not mtime md5 size) /etc/identd.conf
-%attr(640,root,root) /etc/sysconfig/rc-inetd/pidentd
+%attr(640,root,root) %config(noreplace) %verify(not mtime md5 size) /etc/sysconfig/rc-inetd/pidentd
