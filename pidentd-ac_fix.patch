@@ -17,3 +17,21 @@
  
  AC_ARG_WITH(threads,
  [  --with-threads[=ARG]    enable usage of threads [ARG=yes]])
+--- pidentd-3.1a25/plib/configure.in.orig	2002-06-19 10:27:36.000000000 +0200
++++ pidentd-3.1a25/plib/configure.in	2004-04-04 16:59:22.751149792 +0200
+@@ -1,7 +1,5 @@
+ dnl Process this file with autoconf to produce a configure script.
+ 
+-AC_PREFIX_DEFAULT(/usr/local)
+-
+ dnl Try to locate a usable type definition
+ AC_DEFUN(AC_CHECK_TYPE2, [
+ AC_CHECK_TYPE($2, $4)
+@@ -88,6 +86,7 @@
+ AC_CONFIG_AUX_DIR(aux)
+ AC_CONFIG_HEADER(config.h)
+ AC_PREREQ(2.10)
++AC_PREFIX_DEFAULT(/usr/local)
+ 
+ AC_CANONICAL_HOST
+ 
