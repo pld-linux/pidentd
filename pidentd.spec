@@ -5,7 +5,7 @@ Summary(pl):	Demon Internetowy: autoryzacja, identyfikacja u¿ytkownika
 Summary(tr):	Internet kullanýcý saptama süreci
 Name:		pidentd
 Version:	3.1a25
-Release:	2
+Release:	3
 License:	Public Domain
 Group:		Networking/Daemons
 Source0:	ftp://ftp.lysator.liu.se/pub/ident/servers/test/%{name}-%{version}.tar.gz
@@ -13,19 +13,21 @@ Source0:	ftp://ftp.lysator.liu.se/pub/ident/servers/test/%{name}-%{version}.tar.
 Source1:	%{name}.inetd
 Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-ac_fix.patch
+Patch2:		%{name}-segv.patch
+Patch3:		%{name}-config.patch
 URL:		http://www.lysator.liu.se/~pen/pidentd/
 BuildRequires:	autoconf
 BuildRequires:	automake
 PreReq:		rc-inetd >= 0.8.1
 Provides:	identserver
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	linux-identd
 Obsoletes:	linux-identd-inetd
 Obsoletes:	linux-identd-standalone
-Obsoletes:	oidentd
-Obsoletes:      oidentd-standalone
-Obsoletes:      oidentd-inetd
 Obsoletes:	midentd
+Obsoletes:	oidentd
+Obsoletes:      oidentd-inetd
+Obsoletes:      oidentd-standalone
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 identd is a program that implements the RFC1413 identification server.
@@ -57,9 +59,11 @@ identd RFC1413 ile tanýmlanmýþ sunucuyu gerçekleyen bir programdýr.
 Baðlantý kuran sürecin kullanýcý ismini geri döndürür.
 
 %prep
-%setup  -q
+%setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 cp -f /usr/share/automake/config.* aux
@@ -101,6 +105,6 @@ fi
 %defattr(644,root,root,755)
 %doc ChangeLog FAQ README TODO
 %attr(755,root,root) %{_sbindir}/*
-%config(noreplace) %verify(not mtime md5 size) %{_sysconfdir}/identd.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/identd.conf
 %attr(640,root,root) %config(noreplace) %verify(not mtime md5 size) /etc/sysconfig/rc-inetd/pidentd
 %{_mandir}/man*/*
