@@ -1,5 +1,5 @@
 Summary:	Internet Daemon: Authorization, User Identification
-Summary(de):	Internet-Dämon: Autorisierung, User-Identifikation 
+Summary(de):	Internet-Dämon: Autorisierung, User-Identifikation
 Summary(fr):	Démon Internet : autorisation, identification de l'utilisateur
 Summary(pl):	Demon Internetowy: autoryzacja, identyfikacja u¿ytkownika
 Summary(tr):	Internet kullanýcý saptama süreci
