@@ -1,0 +1,1123 @@
+diff -urN pidentd-3.1a14.orig/Makefile.dist pidentd-3.1a14/Makefile.dist
+--- pidentd-3.1a14.orig/Makefile.dist	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/Makefile.dist	Wed Aug 18 20:08:43 1999
+@@ -26,7 +26,7 @@
+ 
+ 
+ distclean maintainer-clean: mostlyclean
+-	rm -f src/Makefile config.h Makefile config.status config.log config.cache
++	rm -f src/Makefile plib/Makefile config.h Makefile config.status config.log config.cache
+ 
+ 
+ #
+diff -urN pidentd-3.1a14.orig/config.h.in pidentd-3.1a14/config.h.in
+--- pidentd-3.1a14.orig/config.h.in	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/config.h.in	Wed Aug 18 20:08:46 1999
+@@ -147,9 +147,6 @@
+ /* Define if you have the <thread.h> header file.  */
+ #undef HAVE_THREAD_H
+ 
+-/* Define if you have the <sys/filio.h> header file.  */
+-#undef HAVE_SYS_FILIO_H
+-
+ /* Define if you have the elf library (-lelf).  */
+ #undef HAVE_LIBELF
+ 
+diff -urN pidentd-3.1a14.orig/configure pidentd-3.1a14/configure
+--- pidentd-3.1a14.orig/configure	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/configure	Wed Aug 18 20:08:49 1999
+@@ -1223,29 +1223,113 @@
+ # Check whether --enable-ipv6 or --disable-ipv6 was given.
+ if test "${enable_ipv6+set}" = set; then
+   enableval="$enable_ipv6"
+-  :
+-fi
+-
++  
+ if test "$enable_ipv6" = "yes"; then
++	echo "$ac_t""yes" 1>&6
+ 	cat >> confdefs.h <<\EOF
+ #define INET6 1
+ EOF
+ 
+-	for dir in /usr/inet6 /usr/local/v6
+-	do
+-		if test -d "$dir/include"
+-		then
+-			CFLAGS="$CFLAGS -I$dir/include"
+-			LIBS="$LIBS -L$dir/lib -linet6"
+-			break
+-		fi
+-	done
+-	if test "X$host_os" = "Xlinux"
+-	then
+-		LIBS="$LIBS -lresolv"
++	if test "X$host_os" = "Xlinux"; then
++		echo $ac_n "checking for getnameinfo in -lc""... $ac_c" 1>&6
++echo "configure:1233: checking for getnameinfo in -lc" >&5
++ac_lib_var=`echo c'_'getnameinfo | sed 'y%./+-%__p_%'`
++if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
++  echo $ac_n "(cached) $ac_c" 1>&6
++else
++  ac_save_LIBS="$LIBS"
++LIBS="-lc  $LIBS"
++cat > conftest.$ac_ext <<EOF
++#line 1241 "configure"
++#include "confdefs.h"
++/* Override any gcc2 internal prototype to avoid an error.  */
++/* We use char because int might match the return type of a gcc2
++    builtin and then its argument prototype would still apply.  */
++char getnameinfo();
++
++int main() {
++getnameinfo()
++; return 0; }
++EOF
++if { (eval echo configure:1252: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
++  rm -rf conftest*
++  eval "ac_cv_lib_$ac_lib_var=yes"
++else
++  echo "configure: failed program was:" >&5
++  cat conftest.$ac_ext >&5
++  rm -rf conftest*
++  eval "ac_cv_lib_$ac_lib_var=no"
++fi
++rm -f conftest*
++LIBS="$ac_save_LIBS"
++
++fi
++if eval "test \"`echo '$ac_cv_lib_'$ac_lib_var`\" = yes"; then
++  echo "$ac_t""yes" 1>&6
++  true
++else
++  echo "$ac_t""no" 1>&6
++
++			echo $ac_n "checking for res_search in -lresolv""... $ac_c" 1>&6
++echo "configure:1272: checking for res_search in -lresolv" >&5
++ac_lib_var=`echo resolv'_'res_search | sed 'y%./+-%__p_%'`
++if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
++  echo $ac_n "(cached) $ac_c" 1>&6
++else
++  ac_save_LIBS="$LIBS"
++LIBS="-lresolv  $LIBS"
++cat > conftest.$ac_ext <<EOF
++#line 1280 "configure"
++#include "confdefs.h"
++/* Override any gcc2 internal prototype to avoid an error.  */
++/* We use char because int might match the return type of a gcc2
++    builtin and then its argument prototype would still apply.  */
++char res_search();
++
++int main() {
++res_search()
++; return 0; }
++EOF
++if { (eval echo configure:1291: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
++  rm -rf conftest*
++  eval "ac_cv_lib_$ac_lib_var=yes"
++else
++  echo "configure: failed program was:" >&5
++  cat conftest.$ac_ext >&5
++  rm -rf conftest*
++  eval "ac_cv_lib_$ac_lib_var=no"
++fi
++rm -f conftest*
++LIBS="$ac_save_LIBS"
++
++fi
++if eval "test \"`echo '$ac_cv_lib_'$ac_lib_var`\" = yes"; then
++  echo "$ac_t""yes" 1>&6
++    ac_tr_lib=HAVE_LIB`echo resolv | sed -e 's/[^a-zA-Z0-9_]/_/g' \
++    -e 'y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/'`
++  cat >> confdefs.h <<EOF
++#define $ac_tr_lib 1
++EOF
++
++  LIBS="-lresolv $LIBS"
++
++else
++  echo "$ac_t""no" 1>&6
++fi
++
++			CFLAGS="$CFLAGS -I/usr/inet6/include"
++			LIBS="-L/usr/inet6/lib -linet6 $LIBS"
++fi
++
++	else
++		CFLAGS="$CFLAGS -I/usr/local/v6/include"
++		LIBS="$LIBS -L/usr/local/v6/lib -linet6"
+ 	fi
+ fi
+-echo "$ac_t""${enable_ipv6-no}" 1>&6
++else
++  echo "$ac_t""no" 1>&6
++fi
++
+ 
+ 
+ 
+diff -urN pidentd-3.1a14.orig/configure.in pidentd-3.1a14/configure.in
+--- pidentd-3.1a14.orig/configure.in	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/configure.in	Wed Aug 18 20:08:52 1999
+@@ -274,24 +274,20 @@
+ 
+ 
+ AC_MSG_CHECKING(if --enable-ipv6 option is specified)
+-AC_ARG_ENABLE(ipv6, [  --enable-ipv6           build IPv6-capable version])
++AC_ARG_ENABLE(ipv6, [  --enable-ipv6           build IPv6-capable version], [
+ if test "$enable_ipv6" = "yes"; then
++	AC_MSG_RESULT(yes)
+ 	AC_DEFINE(INET6)
+-	for dir in /usr/inet6 /usr/local/v6
+-	do
+-		if test -d "$dir/include"
+-		then
+-			CFLAGS="$CFLAGS -I$dir/include"
+-			LIBS="$LIBS -L$dir/lib -linet6"
+-			break
+-		fi
+-	done
+-	if test "X$host_os" = "Xlinux"
+-	then
+-		LIBS="$LIBS -lresolv"
++	if test "X$host_os" = "Xlinux"; then
++		AC_CHECK_LIB(c, getnameinfo, [true], [
++			AC_CHECK_LIB(resolv, res_search)
++			CFLAGS="$CFLAGS -I/usr/inet6/include"
++			LIBS="-L/usr/inet6/lib -linet6 $LIBS"])
++	else
++		CFLAGS="$CFLAGS -I/usr/local/v6/include"
++		LIBS="$LIBS -L/usr/local/v6/lib -linet6"
+ 	fi
+-fi
+-AC_MSG_RESULT(${enable_ipv6-no})
++fi], AC_MSG_RESULT(no))
+ 
+ 
+ 
+diff -urN pidentd-3.1a14.orig/plib/ident.c pidentd-3.1a14/plib/ident.c
+--- pidentd-3.1a14.orig/plib/ident.c	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/plib/ident.c	Wed Aug 18 20:08:58 1999
+@@ -130,13 +130,21 @@
+     if (ilp->timeout)
+ 	tp = timeout_create(ilp->timeout, timeout_handler, &fd);
+     
++#ifdef INET6
++    if (s_bind(fd, &our_sin.su_sa, SA_LEN(&our_sin.su_sa)) < 0)
++#else
+     if (s_bind(fd, (struct sockaddr *) &our_sin, sizeof(our_sin)) < 0)
++#endif
+     {
+ 	err = errno;
+ 	goto Exit;
+     }
+ 
++#ifdef INET6
++    if (s_connect(fd, &ident_sin.su_sa, SA_LEN(&ident_sin.su_sa)) < 0)
++#else
+     if (s_connect(fd, (struct sockaddr *) &ident_sin, sizeof(ident_sin)) < 0)
++#endif
+     {
+ 	err = errno;
+ 	goto Exit;
+diff -urN pidentd-3.1a14.orig/plib/ident.h pidentd-3.1a14/plib/ident.h
+--- pidentd-3.1a14.orig/plib/ident.h	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/plib/ident.h	Wed Aug 18 20:09:02 1999
+@@ -24,6 +24,11 @@
+ #ifndef IPPORT_IDENT
+ #define IPPORT_IDENT 113
+ #endif
++#ifdef INET6
++#ifndef IPPORT_IDENT_STR
++#define IPPORT_IDENT_STR "113"
++#endif
++#endif
+ 
+ 
+ typedef struct
+diff -urN pidentd-3.1a14.orig/plib/server.c pidentd-3.1a14/plib/server.c
+--- pidentd-3.1a14.orig/plib/server.c	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/plib/server.c	Wed Aug 18 20:09:06 1999
+@@ -47,6 +47,7 @@
+ #ifdef INET6
+ 	    char *addr,
+ 	    char *port,
++	    int family,
+ #else
+ 	    UINT32 addr,
+ 	    UINT16 port,
+@@ -81,7 +82,7 @@
+     {
+ #ifdef INET6
+ 	memset(&hints, 0, sizeof(hints));
+-	hints.ai_family = PF_INET6;
++	hints.ai_family = family;
+ 	hints.ai_socktype = SOCK_STREAM;
+ 	hints.ai_flags = AI_PASSIVE;
+ 	if (getaddrinfo(addr, port, &hints, &res)) {
+@@ -106,7 +107,7 @@
+ 	    char buf1[NI_MAXHOST];
+ 
+ 
+-	    getnameinfo((struct sockaddr *)&sp->sin, SA_LEN(&sp->sin),
++	    getnameinfo(&sp->sin.su_sa, SA_LEN(&sp->sin.su_sa),
+ 			buf1, sizeof(buf1), NULL, 0, NI_NUMERICHOST);
+ 	    syslog(LOG_ERR, "bind(%d,%s,%d) failed: %m", sp->fd, buf1, port);
+ 	    
+diff -urN pidentd-3.1a14.orig/plib/server.h pidentd-3.1a14/plib/server.h
+--- pidentd-3.1a14.orig/plib/server.h	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/plib/server.h	Wed Aug 18 20:09:10 1999
+@@ -61,6 +61,7 @@
+ #ifdef INET6
+ 	    char *listen_addr,
+ 	    char *listen_port,
++	    int family,
+ #else
+ 	    UINT32 listen_addr,
+ 	    UINT16 listen_port,
+diff -urN pidentd-3.1a14.orig/plib/str2.c pidentd-3.1a14/plib/str2.c
+--- pidentd-3.1a14.orig/plib/str2.c	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/plib/str2.c	Wed Aug 18 20:09:14 1999
+@@ -23,6 +23,9 @@
+ 
+ #include <grp.h>
+ #include <netdb.h>
++#ifdef INET6
++#include <sys/socket.h>
++#endif
+ #include <netinet/in.h>
+ #include <arpa/inet.h>
+ 
+@@ -189,6 +192,20 @@
+     *out = ntohs(sp->s_port);
+     return 0;
+ }
++
++
++#ifdef INET6
++int
++str2family(const char *str, int *out)
++{
++    if (s_strcasecmp(str, "inet6") == 0)
++	return (*out = PF_INET6);
++    if (s_strcasecmp(str, "inet") == 0)
++	return (*out = PF_INET);
++    return -1;
++}
++#endif
++
+ 
+ 
+ 
+diff -urN pidentd-3.1a14.orig/plib/str2.h pidentd-3.1a14/plib/str2.h
+--- pidentd-3.1a14.orig/plib/str2.h	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/plib/str2.h	Wed Aug 18 20:09:17 1999
+@@ -39,6 +39,12 @@
+ str2port(const char *str,
+ 	 int *out);
+ 
++#ifdef INET6
++extern int
++str2family(const char *str,
++	   int *out);
++#endif
++
+ extern int
+ str2gid(const char *str,
+ 	gid_t *out);
+diff -urN pidentd-3.1a14.orig/plib/support.c pidentd-3.1a14/plib/support.c
+--- pidentd-3.1a14.orig/plib/support.c	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/plib/support.c	Wed Aug 18 20:09:21 1999
+@@ -34,6 +34,9 @@
+ #include "plib/threads.h"
+ #include "plib/safestr.h"
+ #include "plib/support.h"
++#ifdef INET6
++#include "plib/system.h"
++#endif
+ 
+ 
+ /*
+@@ -65,9 +68,17 @@
+ ** Classify what type of socket the file descript "fd" is
+ */
+ int
++#ifdef INET6
++socktype(int fd, int *family)
++#else
+ socktype(int fd)
++#endif
+ {
++#ifdef INET6
++    union sockunion remote_sin, local_sin;
++#else
+     struct sockaddr_in remote_sin, local_sin;
++#endif
+     socklen_t len;
+     int code;
+ 
+@@ -83,6 +94,11 @@
+ 	else
+ 	    return -1;
+     }
++
++
++#ifdef INET6
++    *family = local_sin.su_family;
++#endif
+ 
+      
+     /* Try to get the remote socket adress and port number */
+diff -urN pidentd-3.1a14.orig/plib/support.h pidentd-3.1a14/plib/support.h
+--- pidentd-3.1a14.orig/plib/support.h	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/plib/support.h	Wed Aug 18 20:09:25 1999
+@@ -27,7 +27,11 @@
+ #define SOCKTYPE_CONNECTED 2
+ 
+ extern int
++#ifdef INET6
++socktype(int fd, int *family);
++#else
+ socktype(int fd);
++#endif
+ 
+ 
+ extern int
+diff -urN pidentd-3.1a14.orig/plib/system.h pidentd-3.1a14/plib/system.h
+--- pidentd-3.1a14.orig/plib/system.h	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/plib/system.h	Wed Aug 18 20:09:29 1999
+@@ -18,17 +18,16 @@
+ 
+ #ifdef INET6
+ # include <sys/types.h>
++# include <sys/socket.h>
+ # include <netinet/in.h>
+ # ifdef SIN6_LEN
+-#  define SA_LEN(a)	(a)->su_si.si_len
++#  define SA_LEN(a)	((union sockunion *)(a))->su_si.si_len
+ # else
+-#  ifdef linux
++#  ifndef SA_LEN
+ #   include <support.h>
+-#   ifndef SA_LEN
+-#    define SA_LEN(a)	NRL_SA_LEN(a)
+-#   endif
++#   define SA_LEN(a)	NRL_SA_LEN(a)
++#  endif
+ # endif
+-#endif
+ 
+ union sockunion {
+     struct sockinet {
+@@ -40,6 +39,7 @@
+ #endif
+ 	u_short si_port;
+     } su_si;
++    struct sockaddr     su_sa;
+     struct sockaddr_in  su_sin;
+     struct sockaddr_in6 su_sin6;
+ };
+diff -urN pidentd-3.1a14.orig/src/conf.c pidentd-3.1a14/src/conf.c
+--- pidentd-3.1a14.orig/src/conf.c	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/src/conf.c	Wed Aug 18 20:09:33 1999
+@@ -112,6 +112,15 @@
+ 		       path, line, arg);
+ 	}
+ 
++#ifdef INET6
++	else if (strcasecmp(cp, "server:family") == 0)
++	{
++	    if (str2family(arg, &listen_family) < 0)
++		syslog(LOG_ERR, "%s: %d: invalid family: %s",
++		       path, line, arg);
++	}
++#endif
++
+ 	else if (strcasecmp(cp, "server:backlog") == 0)
+ 	{
+ 	    if (str2int(arg, &listen_backlog) < 0)
+diff -urN pidentd-3.1a14.orig/src/ibench.c pidentd-3.1a14/src/ibench.c
+--- pidentd-3.1a14.orig/src/ibench.c	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/src/ibench.c	Wed Aug 18 20:09:39 1999
+@@ -31,6 +31,10 @@
+ #include <unistd.h>
+ #endif
+ 
++#ifdef INET6
++#include <netdb.h>
++#endif
++
+ #include <stdlib.h>
+ #include <time.h>
+ #include <pwd.h>
+@@ -46,13 +50,20 @@
+ #include <arpa/inet.h>
+ 
+ #include "plib/petopt.h"
++#ifdef INET6
++#include "plib/system.h"
++#endif
+ #include "pidentd.h"
+ 
+ 
+ int debug = 0;
+ int verbose = 0;
+ 
++#ifdef INET6
++struct addrinfo *res;
++#else
+ struct sockaddr_in host_sin;
++#endif
+ char *username = NULL;
+ int rev_flag = 0;
+ volatile int abort_test = 0;
+@@ -60,6 +71,11 @@
+ int ignore_reply = 0;
+ int test_len = 60;
+ int max_tests = 0;
++#ifdef INET6
++char *port = IPPORT_IDENT_STR;
++char *addr = NULL;
++int family = AF_INET6;
++#endif
+ 
+ 
+ static RETSIGTYPE
+@@ -86,7 +102,11 @@
+ {
+     int fd, buflen, tlen;
+     socklen_t len;
++#ifdef INET6
++    union sockunion our, *sin;
++#else
+     struct sockaddr_in our, sin;
++#endif
+     char buf[1024], buf2[1024];
+     buflen = 0;
+     
+@@ -98,9 +118,15 @@
+ 	return 0;
+     }
+     
++#ifdef INET6
++    sin = (union sockunion *)res->ai_addr;
++
++    fd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
++#else
+     sin = host_sin;
+ 
+     fd = socket(AF_INET, SOCK_STREAM, 0);
++#endif
+     if (fd < 0)
+     {
+ 	if (errno != EINTR)
+@@ -108,7 +134,11 @@
+ 	return -1;
+     }
+     
++#ifdef INET6
++    if (connect(fd, (struct sockaddr *) res->ai_addr, res->ai_addrlen) < 0)
++#else
+     if (connect(fd, (struct sockaddr *) &sin, sizeof(sin)) < 0)
++#endif
+     {
+ 	if (errno != EINTR)
+ 	    perror("connect");
+@@ -123,6 +153,21 @@
+ 	goto Fail;
+     }
+ 
++#ifdef INET6
++#ifdef HAVE_SNPRINTF
++    if (rev_flag)
++	snprintf(buf, sizeof(buf),
++		 "%d , %d\r\n", ntohs(sin->su_port), ntohs(our.su_port));
++    else
++	snprintf(buf, sizeof(buf),
++		 "%d , %d\r\n", ntohs(our.su_port), ntohs(sin->su_port));
++#else
++    if (rev_flag)
++	sprintf(buf, "%d , %d\r\n", ntohs(sin->su_port), ntohs(our.su_port));
++    else
++	sprintf(buf, "%d , %d\r\n", ntohs(our.su_port), ntohs(sin->su_port));
++#endif
++#else
+ #ifdef HAVE_SNPRINTF
+     if (rev_flag)
+ 	snprintf(buf, sizeof(buf),
+@@ -136,6 +181,7 @@
+     else
+ 	sprintf(buf, "%d , %d\r\n", ntohs(our.sin_port), ntohs(sin.sin_port));
+ #endif
++#endif
+     
+     if (write(fd, buf, strlen(buf)) < 0)
+     {
+@@ -259,6 +305,16 @@
+ 	"TCP/IP Port"
+     },
+     
++#ifdef INET6
++    {
++	'f',
++	POF_STR,
++	"Family",
++	&family,
++	"Protocol family (inet6|inet)"
++    },
++#endif
++
+     {
+ 	'u',
+ 	POF_STR,
+@@ -311,7 +367,9 @@
+ 	     PETOPTS *pov,
+ 	     const char *arg)
+ {
++#ifndef INET6
+     int port;
++#endif
+     
+     
+     switch (pov->s)
+@@ -326,7 +384,11 @@
+ 	
+       case 'r':
+ 	rev_flag = 1;
++#ifdef INET6
++	if (str2str(arg, &addr) < 0)
++#else
+ 	if (str2addr(arg, &host_sin.sin_addr) < 0)
++#endif
+ 	    return POE_INVALID;
+ 
+ 	if (username == NULL)
+@@ -334,11 +396,23 @@
+ 	break;
+ 
+       case 'p':
++#ifdef INET6
++	if (str2str(arg, &port) < 0)
++	    return POE_INVALID;
++#else
+ 	if (str2port(arg, &port) < 0)
+ 	    return POE_INVALID;
+ 	host_sin.sin_port = htons(port);
++#endif
+ 	break;
+ 	
++#ifdef INET6
++      case 'f':
++	if (str2family(arg, &family) < 0)
++	    return POE_INVALID;
++	break;
++#endif
++
+       default:
+ 	return 1;
+     }
+@@ -354,6 +428,9 @@
+     time_t start, stop;
+     struct passwd *pp;
+     PETOPT *pop;
++#ifdef INET6
++    struct addrinfo hints;
++#endif
+ 
+ 
+     ecode = petopt_setup(&pop, 0,
+@@ -368,10 +445,12 @@
+ 	exit(EXIT_FAILURE);
+     }
+ 
++#ifndef INET6
+     memset(&host_sin, 0, sizeof(host_sin));
+     host_sin.sin_family = AF_INET;
+     host_sin.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+     host_sin.sin_port = htons(IPPORT_IDENT);
++#endif
+     
+     username = NULL;
+ 
+@@ -384,6 +463,14 @@
+ 	exit(EXIT_FAILURE);
+     }
+     
++#ifdef INET6
++    memset(&hints, 0, sizeof(hints));
++    hints.ai_family = family;
++    hints.ai_socktype = SOCK_STREAM;
++    if (getaddrinfo(addr, port, &hints, &res))
++	perror("getaddrinfo()");
++#endif
++
+     if (username == NULL)
+     {
+ 	pp = getpwuid(getuid());
+diff -urN pidentd-3.1a14.orig/src/idecrypt.c pidentd-3.1a14/src/idecrypt.c
+--- pidentd-3.1a14.orig/src/idecrypt.c	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/src/idecrypt.c	Wed Aug 18 20:09:43 1999
+@@ -209,9 +209,9 @@
+ 	ip_local.su_family = AF_INET6;
+ 	ip_remote.su_family = AF_INET6;
+     }
+-    getnameinfo((struct sockaddr *)&ip_local, SA_LEN(&ip_local),
++    getnameinfo(&ip_local.su_sa, SA_LEN(&ip_local.su_sa),
+ 		local, sizeof(local), NULL, 0, NI_NUMERICHOST);
+-    getnameinfo((struct sockaddr *)&ip_remote, SA_LEN(&ip_remote),
++    getnameinfo(&ip_remote.su_sa, SA_LEN(&ip_remote.su_sa),
+ 		remote, sizeof(remote), NULL, 0, NI_NUMERICHOST);
+ #else
+     ip_local.s_addr = r.fields.ip_local;
+diff -urN pidentd-3.1a14.orig/src/k_freebsd2.c pidentd-3.1a14/src/k_freebsd2.c
+--- pidentd-3.1a14.orig/src/k_freebsd2.c	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/src/k_freebsd2.c	Wed Aug 18 20:09:46 1999
+@@ -75,10 +75,9 @@
+ #if 0
+ struct nlist nl[] =
+ {
+-#ifdef INET6
+-  { "_tcb6" },
+-#else
+   { "_tcb" },
++#if defined(INET6) && __FreeBSD__ < 3
++  { "_tcb6" },
+ #endif
+   { "_btext" },
+   { "" }
+@@ -92,24 +91,21 @@
+ };
+ 
+ static int getbuf(struct kainfo *, u_long, char *, u_int, char *);
+-#ifdef INET6
+-#if __FreeBSD__ < 3
+-static struct socket *getlist(struct kainfo *, struct in6pcb *,
+-    struct in6_addr *, int, struct in6_addr *, int);
+-
+-static struct in6pcb tcb;
++#if defined(INET6) && __FreeBSD__ >= 3
++static struct socket *getlist(struct kainfo *, struct inpcbhead *,
++    union sockunion *, union sockunion *);
+ #else
+ static struct socket *getlist(struct kainfo *, struct inpcbhead *,
++    struct in_addr *, int, struct in_addr *, int);
++#endif
++#if defined(INET6) && __FreeBSD__ < 3
++static struct socket *getlist6(struct kainfo *, struct in6pcb *,
+     struct in6_addr *, int, struct in6_addr *, int);
+ 
+-static struct inpcbhead tcb;
++static struct in6pcb tcb6;
+ #endif
+-#else
+-static struct socket *getlist(struct kainfo *, struct inpcbhead *,
+-    struct in_addr *, int, struct in_addr *, int);
+ 
+ static struct inpcbhead tcb;
+-#endif
+ 
+ int
+ ka_init(void)
+@@ -135,15 +131,21 @@
+ 		return -1;
+ 	}
+ 
+-#define N_TCB 0
+-#define N_BTEXT 1
+ #if defined(INET6) && __FreeBSD__ < 3
+-	kp->nl[N_TCB].n_name = "_tcb6";
++#define N_TCB 0
++#define N_TCB6 1
++#define N_BTEXT 2
++	kp->nl[N_TCB].n_name = "_tcb";
++	kp->nl[N_TCB6].n_name = "_tcb6";
++	kp->nl[N_BTEXT].n_name = "_btext";
++	kp->nl[3].n_name = "";
+ #else
++#define N_TCB 0
++#define N_BTEXT 1
+ 	kp->nl[N_TCB].n_name = "_tcb";
+-#endif
+ 	kp->nl[N_BTEXT].n_name = "_btext";
+ 	kp->nl[2].n_name = "";
++#endif
+ 	/*
+ 	** Extract offsets to the needed variables in the kernel
+ 	*/
+@@ -196,49 +198,22 @@
+ ** Returns NULL if no match.
+ */
+ static struct socket *
+-#if defined(INET6) && __FreeBSD__ < 3
+-getlist(kp, pcbp, faddr, fport, laddr, lport)
++#if defined(INET6) && __FreeBSD__ >= 3
++getlist(kp, pcbhead, fsin, lsin)
+ 	struct kainfo *kp;
+-	struct in6pcb *pcbp;
++	struct inpcbhead *pcbhead;
++	union sockunion *fsin, *lsin;
++{
++	struct in6pcb *head, pcbp;
+ #else
+ getlist(kp, pcbhead, faddr, fport, laddr, lport)
+ 	struct kainfo *kp;
+ 	struct inpcbhead *pcbhead;
+-#endif
+-#ifdef INET6
+-	struct in6_addr *faddr;
+-	int fport;
+-	struct in6_addr *laddr;
+-	int lport;
+-#else
+ 	struct in_addr *faddr;
+ 	int fport;
+ 	struct in_addr *laddr;
+ 	int lport;
+-#endif
+ {
+-#if defined(INET6) && __FreeBSD__ < 3
+-	struct in6pcb *head;
+-
+-	if (!pcbp)
+-		return NULL;
+-
+-	head = pcbp->in6p_prev;
+-	do {
+-		if (!memcmp(pcbp->in6p_faddr.s6_addr, faddr->s6_addr,
+-			    sizeof(struct in6_addr)) &&
+-		    !memcmp(pcbp->in6p_laddr.s6_addr, laddr->s6_addr,
+-			    sizeof(struct in6_addr)) &&
+-		     pcbp->in6p_fport         == fport &&
+-		     pcbp->in6p_lport         == lport)
+-			return pcbp->in6p_socket;
+-	} while (pcbp->in6p_next != head &&
+-		 getbuf(kp, (long)pcbp->in6p_next,
+-			(char *)pcbp, sizeof(struct in6pcb), "tcblist"));
+-#else
+-#ifdef INET6
+-	struct in6pcb *head, pcbp;
+-#else
+ 	struct inpcb *head, pcbp;
+ #endif
+ 
+@@ -250,29 +225,69 @@
+ 		if (!getbuf(kp, (u_long)head, (char *)&pcbp,
+ 		    sizeof(struct inpcb), "tcblist"))
+ 			break;
+-#ifdef INET6
++#if defined(INET6) && __FreeBSD__ >= 3
+ 		if (pcbp.inp_vflag == INP_IPV4) {
+-			if (IN6_IS_ADDR_V4MAPPED(faddr) &&
+-			    pcbp.inp_faddr.s_addr == faddr->s6_addr32[3] &&
+-			    pcbp.inp_fport        == fport &&
+-			    pcbp.inp_lport        == lport )
+-				return(pcbp.inp_socket);
++		    if (fsin->su_family == AF_INET) {
++			if (pcbp.inp_faddr.s_addr == fsin->su_sin_addr.s_addr &&
++			    pcbp.inp_fport == fsin->su_port &&
++			    pcbp.inp_lport == lsin->su_port)
++			    return(pcbp.inp_socket);
++		    } else if (IN6_IS_ADDR_V4MAPPED(&fsin->su_sin6_addr) &&
++			     pcbp.inp_faddr.s_addr == fsin->su_sin6_addr.s6_addr32[3] &&
++			     pcbp.inp_fport == fsin->su_port &&
++			     pcbp.inp_lport == lsin->su_port)
++			return(pcbp.inp_socket);
+ 		} else if (pcbp.inp_vflag == INP_IPV6 &&
+-			   !memcmp(pcbp.in6p_faddr.s6_addr, faddr->s6_addr,
++			   fsin->su_family == AF_INET6 &&
++			   !memcmp(pcbp.in6p_faddr.s6_addr,
++				   fsin->su_sin6_addr.s6_addr,
+ 				   sizeof(struct in6_addr)) &&
++			   pcbp.inp_fport == fsin->su_port &&
++			   pcbp.inp_lport == lsin->su_port)
+ #else
+ 		if (pcbp.inp_faddr.s_addr == faddr->s_addr &&
+-#endif
+ 		    pcbp.inp_fport        == fport &&
+ 		    pcbp.inp_lport        == lport )
++#endif
+ 			return(pcbp.inp_socket);
+ 		head = pcbp.inp_list.le_next;
+ 	} while (head != NULL);
+-#endif
+ 
+ 	return NULL;
+ }
+ 
++#if defined(INET6) && __FreeBSD__ < 3
++static struct socket *
++getlist6(kp, pcbp, faddr, fport, laddr, lport)
++	struct kainfo *kp;
++	struct in6pcb *pcbp;
++	struct in6_addr *faddr;
++	int fport;
++	struct in6_addr *laddr;
++	int lport;
++{
++	struct in6pcb *head;
++
++	if (!pcbp)
++		return NULL;
++
++	head = pcbp->in6p_prev;
++	do {
++		if (!memcmp(pcbp->in6p_faddr.s6_addr, faddr,
++			    sizeof(struct in6_addr)) &&
++		    !memcmp(pcbp->in6p_laddr.s6_addr, laddr,
++			    sizeof(struct in6_addr)) &&
++		    pcbp->in6p_fport == fport &&
++		    pcbp->in6p_lport == lport)
++			return pcbp->in6p_socket;
++	} while (pcbp->in6p_next != head &&
++		 getbuf(kp, (long)pcbp->in6p_next,
++			(char *)pcbp, sizeof(struct in6pcb), "tcblist"));
++
++	return NULL;
++}
++#endif
++
+ /*
+ ** Return the user number for the connection owner
+ */
+@@ -286,10 +301,8 @@
+ 	int i;
+ 	int			nentries;
+ #ifdef INET6
+-	struct in6_addr *faddr = &ke->remote.su_sin6_addr;
+-	int fport = ke->remote.su_port;
+-	struct in6_addr *laddr = &ke->local.su_sin6_addr;
+-	int lport = ke->local.su_port;
++	union sockunion *fsin = &ke->remote;
++	union sockunion *lsin = &ke->local;
+ #else
+ 	struct in_addr *faddr = &ke->remote.sin_addr;
+ 	int fport = ke->remote.sin_port;
+@@ -304,13 +317,39 @@
+ 	}
+ 
+ 	/* -------------------- TCP PCB LIST -------------------- */
+-	if (!getbuf(kp, kp->nl[N_TCB].n_value, (char*)&tcb, sizeof(tcb), "tcb"))
++#ifdef INET6
++#if __FreeBSD__ < 3
++	if (ke->remote.su_family == AF_INET) {
++		if (!getbuf(kp, kp->nl[N_TCB].n_value,
++			    (char*)&tcb, sizeof(tcb), "tcb"))
++			return -1;
++
++		sockp = getlist(kp, &tcb,
++				&fsin->su_sin_addr, fsin->su_port,
++				&lsin->su_sin_addr, lsin->su_port);
++	} else {
++		if (!getbuf(kp, kp->nl[N_TCB6].n_value,
++			    (char*)&tcb6, sizeof(tcb6), "tcb6"))
++			return -1;
++		tcb6.in6p_prev = (struct in6pcb *)kp->nl[N_TCB6].n_value;
++
++		sockp = getlist6(kp, &tcb6,
++				 &fsin->su_sin6_addr, fsin->su_port,
++				 &lsin->su_sin6_addr, lsin->su_port);
++	}
++#else
++	if (!getbuf(kp, kp->nl[N_TCB].n_value,
++		    (char*)&tcb, sizeof(tcb), "tcb"))
+ 		return -1;
+ 
+-#if defined(INET6) && __FreeBSD__ < 3
+-	tcb.in6p_prev = (struct in6pcb *)kp->nl[N_TCB].n_value;
++	sockp = getlist(kp, &tcb, fsin, lsin);
+ #endif
++#else
++	if (!getbuf(kp, kp->nl[N_TCB].n_value, (char*)&tcb, sizeof(tcb), "tcb"))
++		return -1;
++
+ 	sockp = getlist(kp, &tcb, faddr, fport, laddr, lport);
++#endif
+ 
+ 	if (!sockp)
+ 		return -1;
+diff -urN pidentd-3.1a14.orig/src/k_linux.c pidentd-3.1a14/src/k_linux.c
+--- pidentd-3.1a14.orig/src/k_linux.c	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/src/k_linux.c	Wed Aug 18 20:13:16 1999
+@@ -91,7 +91,7 @@
+ #ifdef INET6
+ static int
+ ka_lookup4(void *vp, struct kernel *kp,
+-	   unsigned long r_laddr, unsigned long *r_raddr)
++	   unsigned long r_laddr, unsigned long r_raddr)
+ #else
+ int
+ ka_lookup(void *vp, struct kernel *kp)
+@@ -182,7 +182,7 @@
+     /* eat header */
+     while (fgets(buf, sizeof(buf)-1, fp) == NULL)
+ 	;
+-    while (fgets(buf, sizeof(buf)-1, fp) != NULL))
++    while (fgets(buf, sizeof(buf)-1, fp) != NULL)
+     {
+ 	if (sscanf(buf,"%d: %8x%8x%8x%8x:%x %8x%8x%8x%8x:%x %x %lX:%lX %x:%lX %lx %d %ld %d",
+ 		   &dummy, &myladdr.s6_addr32[0], &myladdr.s6_addr32[1],
+diff -urN pidentd-3.1a14.orig/src/kernel.c pidentd-3.1a14/src/kernel.c
+--- pidentd-3.1a14.orig/src/kernel.c	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/src/kernel.c	Wed Aug 18 20:09:54 1999
+@@ -107,11 +107,11 @@
+ #ifdef INET6
+ 	    char buf1[NI_MAXHOST];
+ 
+-	    getnameinfo((struct sockaddr *)&kp->remote, SA_LEN(&kp->remote),
++	    getnameinfo(&kp->remote.su_sa, SA_LEN(&kp->remote.su_sa),
+ 			buf1, sizeof(buf1), NULL, 0, NI_NUMERICHOST);
+ 	    fprintf(stderr, "remote = %s:%d\n", buf1,
+ 		    ntohs(kp->remote.su_port));
+-	    getnameinfo((struct sockaddr *)&kp->local, SA_LEN(&kp->remote),
++	    getnameinfo(&kp->local.su_sa, SA_LEN(&kp->remote.su_sa),
+ 			buf1, sizeof(buf1), NULL, 0, NI_NUMERICHOST);
+ 	    fprintf(stderr, "local = %s:%d\n", buf1,
+ 		    ntohs(kp->local.su_port));
+diff -urN pidentd-3.1a14.orig/src/main.c pidentd-3.1a14/src/main.c
+--- pidentd-3.1a14.orig/src/main.c	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/src/main.c	Wed Aug 18 20:09:57 1999
+@@ -40,8 +40,9 @@
+ 
+ int listen_sock = -1;
+ #ifdef INET6
+-char *listen_port = "113";
++char *listen_port = IPPORT_IDENT_STR;
+ char *listen_addr = NULL;
++int listen_family = PF_INET6;
+ #else
+ int listen_port = IPPORT_IDENT;
+ int listen_addr = INADDR_ANY;
+@@ -170,6 +171,16 @@
+ 	"TCP/IP listening port"
+     },
+     
++#ifdef INET6
++    {
++	'f',
++	POF_STR,
++	"Family",
++	&listen_family,
++	"Listening protocol family (inet6|inet)"
++    },
++#endif
++
+     {
+ 	't',
+ 	POF_INT,
+@@ -342,6 +353,13 @@
+ 	    return POE_INVALID;
+ 	break;
+ 	
++#ifdef INET6
++      case 'f':
++	if (str2family(arg, &listen_family) < 0)
++	    return POE_INVALID;
++	break;
++#endif
++
+       case 'g':
+ 	if (str2gid(arg, &server_gid) < 0)
+ 	    return POE_INVALID;
+@@ -451,7 +469,11 @@
+     /*
+     ** Try to autodetect how we was started.
+     */
++#ifdef INET6
++    socket_type = socktype(STDIN_FILENO, &listen_family);
++#else
+     socket_type = socktype(STDIN_FILENO);
++#endif
+     
+     if (debug)
+ 	fprintf(stderr, "socktype = %d\n", socket_type);
+@@ -520,6 +542,9 @@
+     servp = server_init(listen_sock,
+ 			listen_addr,
+ 			listen_port,
++#ifdef INET6
++			listen_family,
++#endif
+ 			listen_backlog,
+ 			requests_max,
+ 			request_handler);
+diff -urN pidentd-3.1a14.orig/src/pidentd.h pidentd-3.1a14/src/pidentd.h
+--- pidentd-3.1a14.orig/src/pidentd.h	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/src/pidentd.h	Wed Aug 18 20:10:02 1999
+@@ -44,6 +44,11 @@
+ #ifndef IPPORT_IDENT
+ #define IPPORT_IDENT 113
+ #endif
++#ifdef INET6
++#ifndef IPPORT_IDENT_STR
++#define IPPORT_IDENT_STR "113"
++#endif
++#endif
+ 
+ 
+ #ifndef PATH_SYSCONFDIR
+@@ -76,6 +81,7 @@
+ #ifdef INET6
+ extern char *listen_port;
+ extern char *listen_addr;
++extern int listen_family;
+ #else
+ extern int listen_port;
+ extern int listen_addr;
+diff -urN pidentd-3.1a14.orig/src/request.c pidentd-3.1a14/src/request.c
+--- pidentd-3.1a14.orig/src/request.c	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/src/request.c	Wed Aug 18 20:10:05 1999
+@@ -156,8 +156,7 @@
+ 		if (result_syslog_level > -1) {
+ 		    char buf1[NI_MAXHOST];
+ 
+-		    getnameinfo((struct sockaddr *)&cp->rsin,
+-				SA_LEN(&cp->rsin),
++		    getnameinfo(&cp->rsin.su_sa, SA_LEN(&cp->rsin.su_sa),
+ 				buf1, sizeof(buf1), NULL, 0, NI_NUMERICHOST);
+ 		    syslog(result_syslog_level,
+ 			   "reply to %s: %s : USERID : UNKNOWN :%s\n",
+diff -urN pidentd-3.1a14.orig/src/send.c pidentd-3.1a14/src/send.c
+--- pidentd-3.1a14.orig/src/send.c	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/src/send.c	Wed Aug 18 20:10:09 1999
+@@ -87,7 +87,7 @@
+     if (result_syslog_level > -1) {
+ 	char buf1[NI_MAXHOST];
+ 
+-	getnameinfo((struct sockaddr *)&cp->rsin, SA_LEN(&cp->rsin),
++	getnameinfo(&cp->rsin.su_sa, SA_LEN(&cp->rsin.su_sa),
+ 		    buf1, sizeof(buf1), NULL, 0, NI_NUMERICHOST);
+ 	syslog(result_syslog_level, "reply to %s: %s", buf1, buf);
+     }
+@@ -181,7 +181,7 @@
+     if (result_syslog_level > -1) {
+ 	char buf1[NI_MAXHOST];
+ 
+-	getnameinfo((struct sockaddr *)&cp->rsin, SA_LEN(&cp->rsin),
++	getnameinfo(&cp->rsin.su_sa, SA_LEN(&cp->rsin.su_sa),
+ 		    buf1, sizeof(buf1), NULL, 0, NI_NUMERICHOST);
+ 	syslog(result_syslog_level,
+ 	       "reply to %s: %s : %s", buf1, req, buf);
+@@ -215,7 +215,7 @@
+     if (result_syslog_level > -1) {
+ 	char buf1[NI_MAXHOST];
+ 
+-	getnameinfo((struct sockaddr *)&cp->rsin, SA_LEN(&cp->rsin),
++	getnameinfo(&cp->rsin.su_sa, SA_LEN(&cp->rsin.su_sa),
+ 		    buf1, sizeof(buf1), NULL, 0, NI_NUMERICHOST);
+ 	syslog(result_syslog_level, "reply to %s: %s", buf1);
+     }
+diff -urN pidentd-3.1a14.orig/src/socks.c pidentd-3.1a14/src/socks.c
+--- pidentd-3.1a14.orig/src/socks.c	Wed Aug 18 20:08:32 1999
++++ pidentd-3.1a14/src/socks.c	Wed Aug 18 20:10:12 1999
+@@ -173,9 +173,9 @@
+ 
+ 
+ #ifdef INET6
+-    getnameinfo((struct sockaddr *)&kp->remote, SA_LEN(&kp->remote),
++    getnameinfo(&kp->remote.su_sa, SA_LEN(&kp->remote.su_sa),
+ 		ra, sizeof(ra), NULL, 0, NI_NUMERICHOST);
+-    getnameinfo((struct sockaddr *)&kp->local, SA_LEN(&kp->local),
++    getnameinfo(&kp->local.su_sa, SA_LEN(&kp->local.su_sa),
+ 		la, sizeof(la), NULL, 0, NI_NUMERICHOST);
+     len = s_snprintf(idt, sizeof(idt),
+ 		     "%s,%d,%s,%d",
