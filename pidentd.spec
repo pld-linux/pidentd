@@ -4,12 +4,12 @@ Summary(fr):	Démon Internet : autorisation, identification de l'utilisateur
 Summary(pl):	Demon Internetowy: autoryzacja, identyfikacja u¿ytkownika
 Summary(tr):	Internet kullanýcý saptama süreci
 Name:		pidentd
-Version:	3.1a22
-Release:	2
+Version:	3.1a25
+Release:	1
 License:	Public Domain
 Group:		Networking/Daemons
 Source0:	ftp://ftp.lysator.liu.se/pub/ident/servers/test/%{name}-%{version}.tar.gz
-# Source0-md5:	943493b93d97db6322435810b22b0618
+# Source0-md5:	cdb1a8a9d881233cf52400d4f0e3a6e1
 Source1:	%{name}.inetd
 Patch0:		%{name}-DESTDIR.patch
 BuildRequires:	autoconf
