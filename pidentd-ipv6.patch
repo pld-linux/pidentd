@@ -1,0 +1,81 @@
+diff -urN pidentd-3.1a17.org/src/k_linux.c pidentd-3.1a17/src/k_linux.c
+--- pidentd-3.1a17.org/src/k_linux.c	Fri Nov 17 12:30:15 2000
++++ pidentd-3.1a17/src/k_linux.c	Fri Nov 17 12:51:54 2000
+@@ -60,13 +60,13 @@
+     while ((fp[FP_INET6] = fopen("/proc/net/tcp6", "r")) == NULL &&
+ 	   errno == EINTR)
+ 	;
+-    
++#if 0 
+     if (fp[FP_INET6] == NULL)
+     {
+ 	syslog(LOG_ERR, "fopen(\"/proc/net/tcp6\", \"r\"): %m");
+ 	return -1;
+     }
+-
++#endif
+     while ((fp[FP_INET] = fopen("/proc/net/tcp", "r")) == NULL &&
+ 	   errno == EINTR)
+ 	;
+@@ -91,7 +91,7 @@
+ #ifdef HAVE_IPV6
+ static int
+ ka_lookup4(void *vp, struct kernel *kp,
+-	   unsigned long r_laddr, unsigned long *r_raddr)
++	   unsigned long r_laddr, unsigned long r_raddr)
+ #else
+ int
+ ka_lookup(void *vp, struct kernel *kp)
+@@ -110,8 +110,8 @@
+ 
+     
+ #ifdef HAVE_IPV6
+-    r_rport = ntohs(kp->remote.su_port);
+-    r_lport = ntohs(kp->local.su_port);
++    r_rport = ntohs(SGPORT(kp->remote));
++    r_lport = ntohs(SGPORT(kp->local));
+ #else
+     r_rport = ntohs(kp->remote.sin_port);
+     r_lport = ntohs(kp->local.sin_port);
+@@ -160,20 +160,22 @@
+     int euid;
+ 
+     
+-    r_rport = ntohs(kp->remote.su_port);
+-    r_lport = ntohs(kp->local.su_port);
+-    if (kp->remote.su_family == AF_INET)
++    r_rport = ntohs(SGPORT(kp->remote));
++    r_lport = ntohs(SGPORT(kp->local));
++    if (SGFAM(kp->remote) == AF_INET)
+ 	return (ka_lookup4(((FILE **)vp)[FP_INET], kp,
+-			   kp->local.su_sin_addr.s_addr,
+-			   kp->remote.su_sin_addr.s_addr));
+-    if (IN6_IS_ADDR_V4MAPPED(&kp->remote.su_sin6_addr))
++			   kp->local.sg_sin.sin_addr.s_addr,
++			   kp->remote.sg_sin.sin_addr.s_addr));
++    if (IN6_IS_ADDR_V4MAPPED(&kp->remote.sg_sin6.sin6_addr))
+ 	return (ka_lookup4(((FILE **)vp)[FP_INET], kp,
+-			   kp->local.su_sin6_addr.s6_addr32[3],
+-			   kp->remote.su_sin6_addr.s6_addr32[3]));
+-    r_raddr = &kp->remote.su_sin6_addr;
+-    r_laddr = &kp->local.su_sin6_addr;
++			   kp->local.sg_sin6.sin6_addr.s6_addr32[3],
++			   kp->remote.sg_sin6.sin6_addr.s6_addr32[3]));
++    r_raddr = &kp->remote.sg_sin6.sin6_addr;
++    r_laddr = &kp->local.sg_sin6.sin6_addr;
+ 
+     fp = ((FILE **)vp)[FP_INET6];
++    if (fp == NULL)
++	    return -1;
+ 
+     kp->ruid = NO_UID;
+ 
+@@ -182,7 +184,7 @@
+     /* eat header */
+     while (fgets(buf, sizeof(buf)-1, fp) == NULL)
+ 	;
+-    while (fgets(buf, sizeof(buf)-1, fp) != NULL))
++    while (fgets(buf, sizeof(buf)-1, fp) != NULL)
+     {
+ 	if (sscanf(buf,"%d: %8x%8x%8x%8x:%x %8x%8x%8x%8x:%x %x %lX:%lX %x:%lX %lx %d %ld %d",
+ 		   &dummy, &myladdr.s6_addr32[0], &myladdr.s6_addr32[1],

@@ -1,10 +1,10 @@
-diff -Nru pidentd-3.1a14/Makefile.in pidentd-3.1a14.new/Makefile.in
---- pidentd-3.1a14/Makefile.in	Mon Aug  2 00:54:57 1999
-+++ pidentd-3.1a14.new/Makefile.in	Mon Oct 11 21:21:28 1999
+diff -urN pidentd-3.1a17.org/Makefile.in pidentd-3.1a17/Makefile.in
+--- pidentd-3.1a17.org/Makefile.in	Fri Nov 17 12:21:21 2000
++++ pidentd-3.1a17/Makefile.in	Fri Nov 17 12:21:52 2000
 @@ -28,8 +28,8 @@
  
  install:
- 	@cd src ; $(MAKE) install
+ 	@cd src ; $(MAKE) CC="$(CC)" CFLAGS="$(MY_CFLAGS)" LDFLAGS="$(LDFLAGS)" install
 -	-mkdir -p $(mandir)/man8
 -	$(INSTALL) -m 644 $(srcdir)/doc/identd.8 $(mandir)/man8
 +	-mkdir -p $(DESTDIR)$(mandir)/man8
@@ -12,9 +12,9 @@ diff -Nru pidentd-3.1a14/Makefile.in pidentd-3.1a14.new/Makefile.in
  
  
  clean mostlyclean distclean maintainer-clean dist sign upload version:
-diff -Nru pidentd-3.1a14/plib/Makefile.in pidentd-3.1a14.new/plib/Makefile.in
---- pidentd-3.1a14/plib/Makefile.in	Thu Jul 15 15:43:26 1999
-+++ pidentd-3.1a14.new/plib/Makefile.in	Mon Oct 11 21:20:00 1999
+diff -urN pidentd-3.1a17.org/plib/Makefile.in pidentd-3.1a17/plib/Makefile.in
+--- pidentd-3.1a17.org/plib/Makefile.in	Fri Nov 17 12:21:21 2000
++++ pidentd-3.1a17/plib/Makefile.in	Fri Nov 17 12:22:49 2000
 @@ -36,9 +36,9 @@
  # Installing
  
@@ -27,9 +27,9 @@ diff -Nru pidentd-3.1a14/plib/Makefile.in pidentd-3.1a14.new/plib/Makefile.in
  	done
  
  
-diff -Nru pidentd-3.1a14/src/Makefile.in pidentd-3.1a14.new/src/Makefile.in
---- pidentd-3.1a14/src/Makefile.in	Mon Aug  2 00:55:08 1999
-+++ pidentd-3.1a14.new/src/Makefile.in	Mon Oct 11 21:20:28 1999
+diff -urN pidentd-3.1a17.org/src/Makefile.in pidentd-3.1a17/src/Makefile.in
+--- pidentd-3.1a17.org/src/Makefile.in	Fri Nov 17 12:21:21 2000
++++ pidentd-3.1a17/src/Makefile.in	Fri Nov 17 12:22:34 2000
 @@ -66,9 +66,9 @@
  # Installing
  
