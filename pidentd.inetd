@@ -1,0 +1,8 @@
+SERVICE_NAME=auth
+SOCK_TYPE=stream
+PROTOCOL=tcp
+FLAGS=nowait
+USER=nobody
+SERVER=/usr/sbin/identd
+DAEMON=/usr/sbin/identd
+DAEMONARGS="-e"
