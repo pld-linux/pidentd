@@ -3,7 +3,8 @@ Name:        pidentd
 Version:     3.1a14
 Release:     1
 URL:         ftp://ftp.lysator.liu.se/pub/ident/servers
-Source:      %{name}-%{version}.tar.gz
+Source0:      %{name}-%{version}.tar.gz
+Source1:      %{name}.rc-inetd
 #IPv6 patch: http://www.imasy.or.jp/~ume/ipv6/
 Patch:	     pidentd-3.1a14-ipv6-based-on-19990720.diff
 Copyright:   Public domain
@@ -57,7 +58,7 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT/{usr/{sbin,share/man/man8},etc}
+install -d $RPM_BUILD_ROOT/{usr/{sbin,share/man/man8},etc,etc/sysconfig/rc-inetd}
 make	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	sbindir=$RPM_BUILD_ROOT%{_sbindir} \
 	sysconfdir=$RPM_BUILD_ROOT/etc \
@@ -65,6 +66,8 @@ make	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	install
 
 install etc/identd.conf $RPM_BUILD_ROOT/etc
+
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/pidentd
 
 gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/* ChangeLog FAQ README Y2K TODO doc/rfc1413.txt
 
@@ -77,3 +80,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/*
 %attr(644,root,root) %{_mandir}/man*/*
 %attr(644,root,root) %config(noreplace) %verify(not mtime md5 size) /etc/identd.conf
+%attr(640,root,root) /etc/sysconfig/rc-inetd/pidentd
