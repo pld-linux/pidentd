@@ -1,0 +1,44 @@
+diff -Nru pidentd-3.1a14/Makefile.in pidentd-3.1a14.new/Makefile.in
+--- pidentd-3.1a14/Makefile.in	Mon Aug  2 00:54:57 1999
++++ pidentd-3.1a14.new/Makefile.in	Mon Oct 11 21:21:28 1999
+@@ -28,8 +28,8 @@
+ 
+ install:
+ 	@cd src ; $(MAKE) install
+-	-mkdir -p $(mandir)/man8
+-	$(INSTALL) -m 644 $(srcdir)/doc/identd.8 $(mandir)/man8
++	-mkdir -p $(DESTDIR)$(mandir)/man8
++	$(INSTALL) -m 644 $(srcdir)/doc/identd.8 $(DESTDIR)$(mandir)/man8
+ 
+ 
+ clean mostlyclean distclean maintainer-clean dist sign upload version:
+diff -Nru pidentd-3.1a14/plib/Makefile.in pidentd-3.1a14.new/plib/Makefile.in
+--- pidentd-3.1a14/plib/Makefile.in	Thu Jul 15 15:43:26 1999
++++ pidentd-3.1a14.new/plib/Makefile.in	Mon Oct 11 21:20:00 1999
+@@ -36,9 +36,9 @@
+ # Installing
+ 
+ install: $(LIBS)
+-	-mkdir -p $(libdir)
++	-mkdir -p $(DESTDIR)$(libdir)
+ 	for P in $(LIBS) ; do \
+-		$(INSTALL) -m 644 $${P} $(libdir); \
++		$(INSTALL) -m 644 $${P} $(DESTDIR)$(libdir); \
+ 	done
+ 
+ 
+diff -Nru pidentd-3.1a14/src/Makefile.in pidentd-3.1a14.new/src/Makefile.in
+--- pidentd-3.1a14/src/Makefile.in	Mon Aug  2 00:55:08 1999
++++ pidentd-3.1a14.new/src/Makefile.in	Mon Oct 11 21:20:28 1999
+@@ -66,9 +66,9 @@
+ # Installing
+ 
+ install:	$(PROGRAMS)
+-	-mkdir -p $(sbindir)
++	-mkdir -p $(DESTDIR)$(sbindir)
+ 	for P in $(PROGRAMS) ; do \
+-		$(INSTALL) -m 755 $${P} $(sbindir); \
++		$(INSTALL) -m 755 $${P} $(DESTDIR)$(sbindir); \
+ 	done
+ #	-mkdir -p $(etcdir)
+ #	$(INSTALL) -m 644 identd.conf $(etcdir)
