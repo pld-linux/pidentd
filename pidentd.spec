@@ -7,12 +7,13 @@ Name:		pidentd
 Version:	3.1a14
 Release:	9
 License:	Public domain
-Group:		Networking
-Group(pl):	Sieciowe
+Group:		Networking/Daemons
+Group(de):	Netzwerkwesen/Server
+Group(pl):	Sieciowe/Serwery
 Source0:	ftp://ftp.lysator.liu.se/pub/ident/servers/test/%{name}-%{version}.tar.gz
 Source1:	%{name}.inetd
-Patch0:		http://www.imasy.or.jp/~ume/ipv6/pidentd-3.1a14-ipv6-based-on-19990720.diff
-Patch1:		pidentd-DESTDIR.patch
+Patch0:		http://www.imasy.or.jp/~ume/ipv6/%{name}-3.1a14-ipv6-based-on-19990720.diff
+Patch1:		%{name}-DESTDIR.patch
 Patch2:		pident-ip6-ip4-fix.patch
 Prereq:		rc-inetd >= 0.8.1
 Provides:	identserver
