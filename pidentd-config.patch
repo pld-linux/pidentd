@@ -1,0 +1,20 @@
+--- pidentd-3.1a25/etc/identd.conf.orig	2001-08-31 10:30:35.000000000 +0200
++++ pidentd-3.1a25/etc/identd.conf	2005-03-27 16:30:49.826566352 +0200
+@@ -9,7 +9,7 @@
+ server:user = nobody
+ 
+ #-- Override the group id
+-# server:group = kmem
++server:group = proc
+ 
+ #-- What port to listen on when started as a daemon or from /etc/inittab
+ # server:port = 113
+@@ -18,7 +18,7 @@
+ # server:backlog = 256
+ 
+ #-- Where to write the file containing our process id
+-# server:pid-file = "/etc/identd.pid"
++server:pid-file = "/var/run/identd.pid"
+ 
+ #-- Maximum number of concurrent requests allowed (0 = unlimited)
+ # server:max-requests = 0
