@@ -1,18 +1,18 @@
 Summary:     Internet Daemon: Authorization, User Identification
 Name:        pidentd
-Version:     3.1a12
+Version:     3.1a14
 Release:     1
 URL:         ftp://ftp.lysator.liu.se/pub/ident/servers
 Source:      %{name}-%{version}.tar.gz
-#Patch:	     http://www.imasy.or.jp/~ume/ipv6/pidentd-3.1a11-ipv6-19990720.diff.gz
-Patch:	     pidentd-3.1a12-ipv6-19990720-PLD.patch
+#IPv6 patch: http://www.imasy.or.jp/~ume/ipv6/
+Patch:	     pidentd-3.1a14-ipv6-based-on-19990720.diff
 Copyright:   Public domain
 Group:       Networking
 Group(pl):   Sieciowe
 BuildRoot:   /tmp/%{name}-%{version}-%{release}-root
 Summary(de): Internet-Dämon: Autorisierung, User-Identifikation 
 Summary(fr): Démon Internet : autorisation, identification de l'utilisateur
-Summary(pl): Demon Iternetowy: autoryzacja, identyfikacja u¿ytkownika
+Summary(pl): Demon Internetowy: autoryzacja, identyfikacja u¿ytkownika
 Summary(tr): Internet kullanýcý saptama süreci
 
 %description
@@ -35,6 +35,9 @@ Identd jest programem zgodnym z RFC1413 (serwer identyfikcji). Demon ten
 sprawdza po³±czenia TCP/IP i weryfikuje nazwê u¿ytkownika procesu który
 tworzy po³±czenie. 
 
+Gdy u¿ywasz pidentda w wersji wykorzystuj±cej w±tki (threads) pamiêtaj
+o uruchamianiu go z inetd w trybie 'wait'.
+
 %description -l tr
 identd RFC1413 ile tanýmlanmýþ sunucuyu gerçekleyen bir programdýr. Baðlantý
 kuran sürecin kullanýcý ismini geri döndürür.
@@ -44,32 +47,33 @@ kuran sürecin kullanýcý ismini geri döndürür.
 %patch -p1
 
 %build
-CFLAGS="$RPM_OPT_FLAGS" LDFLAGS=-s \
-	./configure \
+autoconf
+%configure \
 	--with-threads 	\
 	--enable-ipv6 \
-	--prefix=/usr \
-	--sysconfdir=/etc \
-	--mandir=/usr/share/man 
+	--sysconfdir=/etc
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT/{usr/{sbin,share/man/man8},etc}
-make prefix=$RPM_BUILD_ROOT/usr sysconfdir=$RPM_BUILD_ROOT/etc install mandir=$RPM_BUILD_ROOT/usr/share/man install
+make	prefix=$RPM_BUILD_ROOT%{_prefix} \
+	sbindir=$RPM_BUILD_ROOT%{_sbindir} \
+	sysconfdir=$RPM_BUILD_ROOT/etc \
+	mandir=$RPM_BUILD_ROOT%{_mandir} \
+	install
 
 install etc/identd.conf $RPM_BUILD_ROOT/etc
 
-bzip2 -9 $RPM_BUILD_ROOT/usr/share/man/man8/* ChangeLog FAQ README Y2K TODO doc/rfc1413.txt
+gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/* ChangeLog FAQ README Y2K TODO doc/rfc1413.txt
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc ChangeLog.bz2 FAQ.bz2 README.bz2 Y2K.bz2 TODO.bz2 doc/rfc1413.txt.bz2
-
-%attr(711,root,root) /usr/sbin/*
-%attr(644,root, man) /usr/share/man/man8/*
-%config(noreplace) %verify(not mtime md5 size) /etc/identd.conf
+%doc {ChangeLog,FAQ,README,Y2K,TODO,doc/rfc1413.txt}.gz
+%attr(755,root,root) %{_sbindir}/*
+%attr(644,root,root) %{_mandir}/man*/*
+%attr(644,root,root) %config(noreplace) %verify(not mtime md5 size) /etc/identd.conf
