@@ -14,15 +14,13 @@ Source1:	%{name}.inetd
 Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-ac_fix.patch
 BuildRequires:	autoconf
-Prereq:		rc-inetd >= 0.8.1
+PreReq:		rc-inetd >= 0.8.1
 Provides:	identserver
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	linux-identd
 Obsoletes:	linux-identd-inetd
 Obsoletes:	linux-identd-standalone
 Obsoletes:	oidentd
-
-%define		_sysconfdir	/etc
 
 %description
 identd is a program that implements the RFC1413 identification server.
