@@ -4,8 +4,8 @@ Summary(fr):	Démon Internet : autorisation, identification de l'utilisateur
 Summary(pl):	Demon Internetowy: autoryzacja, identyfikacja u¿ytkownika
 Summary(tr):	Internet kullanýcý saptama süreci
 Name:		pidentd
-Version:	3.1a14
-Release:	9
+Version:	3.1a17
+Release:	1
 License:	Public domain
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
@@ -74,7 +74,7 @@ install etc/identd.conf $RPM_BUILD_ROOT%{_sysconfdir}
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/pidentd
 
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/* ChangeLog FAQ README TODO doc/rfc1413.txt
+gzip -9nf ChangeLog FAQ README TODO doc/rfc1413.txt
 
 %clean
 rm -rf $RPM_BUILD_ROOT
