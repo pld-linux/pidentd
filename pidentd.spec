@@ -5,7 +5,7 @@ Summary(pl):	Demon Internetowy: autoryzacja, identyfikacja u¿ytkownika
 Summary(tr):	Internet kullanýcý saptama süreci
 Name:		pidentd
 Version:	3.1a14
-Release:	2
+Release:	3
 Group:		Networking
 Group(pl):	Sieciowe
 Copyright:	Public domain
@@ -13,7 +13,6 @@ Source0:	ftp://ftp.lysator.liu.se/pub/ident/servers/test/%{name}-%{version}.tar.
 Source1:	%{name}.inetd
 Patch0:		http://www.imasy.or.jp/~ume/ipv6/pidentd-3.1a14-ipv6-based-on-19990720.diff
 Patch1:		pidentd-DESTDIR.patch
-Requires:	inetdaemon
 Prereq:		rc-inetd
 BuildRoot:	/tmp/%{name}-%{version}-%{release}-root
 
@@ -82,7 +81,7 @@ fi
 
 %postun
 if [ -f /var/lock/subsys/rc-inetd ]; then
-	/etc/rc.d/init.d/rc-inetd stop
+	/etc/rc.d/init.d/rc-inetd restart
 fi
 
 %files
