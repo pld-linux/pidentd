@@ -69,31 +69,3 @@ rm -rf $RPM_BUILD_ROOT
 %attr(711,root,root) /usr/sbin/*
 %attr(644,root, man) /usr/share/man/man8/*
 %config(noreplace) %verify(not mtime md5 size) /etc/identd.conf
-
-%changelog
-* Mon Jun 28 1999 Michal Margula <alchemyx@pld.org.pl>
-[3.0.4-1]
-- upgraded to 3.0.4
-- spec fixed for FHS 2.0
-
-* Fri Jan 15 1999 Arkadiusz Mi¶kiewicz <misiek@misiek.eu.org>
-[3.0.1-1d]
-- new upstream release
-
-* Mon Nov 09 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
-[2.7-1d]
-- translation modified for pl,
-- build for PLD Tornado,
-- major changes.
-
-* Mon Aug 17 1998 Jeff Johnson <jbj@redhat.com>
-- build root
-
-* Mon Apr 27 1998 Prospector System <bugs@redhat.com>
-- translations modified for de, fr, tr
-
-* Thu Oct 21 1997 Cristian Gafton <gafton@redhat.com>
-- updated to 2.7
-
-* Fri Jul 18 1997 Erik Troan <ewt@redhat.com>
-- built against glibc
