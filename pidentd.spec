@@ -5,7 +5,7 @@ Summary(pl):	Demon Internetowy: autoryzacja, identyfikacja u¿ytkownika
 Summary(tr):	Internet kullanýcý saptama süreci
 Name:		pidentd
 Version:	3.1a19
-Release:	0.1
+Release:	1
 License:	Public domain
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
@@ -14,6 +14,7 @@ Source0:	ftp://ftp.lysator.liu.se/pub/ident/servers/test/%{name}-%{version}.tar.
 Source1:	%{name}.inetd
 Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-ipv6.patch
+BuildRequires:	autoconf
 Prereq:		rc-inetd >= 0.8.1
 Provides:	identserver
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -88,8 +89,8 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc {ChangeLog,FAQ,README,TODO,doc/rfc1413.txt}.gz
+%doc *.gz doc/*.gz
 %attr(755,root,root) %{_sbindir}/*
-%{_mandir}/man*/*
 %config(noreplace) %verify(not mtime md5 size) %{_sysconfdir}/identd.conf
 %attr(640,root,root) %config(noreplace) %verify(not mtime md5 size) /etc/sysconfig/rc-inetd/pidentd
+%{_mandir}/man*/*
