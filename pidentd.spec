@@ -1,7 +1,7 @@
 Summary:     Internet Daemon: Authorization, User Identification
 Name:        pidentd
-Version:     3.0.1
-Release:     1d
+Version:     3.0.4
+Release:     1
 URL:         ftp://ftp.lysator.liu.se/pub/ident/servers
 Source:      %{name}-%{version}.tar.gz
 Copyright:   Public domain
@@ -45,31 +45,37 @@ CFLAGS="$RPM_OPT_FLAGS -w" LDFLAGS=-s \
 	./configure \
 	--with-threads \
 	--prefix=/usr \
-	--sysconfdir=/etc
+	--sysconfdir=/etc \
+	--mandir=/usr/share/man 
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT/{usr/{sbin,man/man8},etc}
-make prefix=$RPM_BUILD_ROOT/usr sysconfdir=$RPM_BUILD_ROOT/etc install
+install -d $RPM_BUILD_ROOT/{usr/{sbin,share/man/man8},etc}
+make prefix=$RPM_BUILD_ROOT/usr sysconfdir=$RPM_BUILD_ROOT/etc mandir=$RPM_BUILD_ROOT/usr/share/man install
 
 install etc/identd.conf $RPM_BUILD_ROOT/etc
 
-bzip2 -9 $RPM_BUILD_ROOT/usr/man/man8/* ChangeLog FAQ README Y2K
+bzip2 -9 $RPM_BUILD_ROOT/usr/share/man/man8/* ChangeLog FAQ README Y2K TODO doc/rfc1413.txt
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc ChangeLog.bz2 FAQ.bz2 README.bz2 Y2K.bz2
+%doc ChangeLog.bz2 FAQ.bz2 README.bz2 Y2K.bz2 TODO.bz2 doc/rfc1413.txt.bz2
 
-%attr(711,root,root) /usr/sbin/ide*
-%attr(644,root, man) /usr/man/man8/ide*
+%attr(711,root,root) /usr/sbin/*
+%attr(644,root, man) /usr/share/man/man8/*
 %config(noreplace) %verify(not mtime md5 size) /etc/identd.conf
 
 %changelog
+* Mon Jun 28 1999 Michal Margula <alchemyx@pld.org.pl>
+[3.0.4-1]
+- upgraded to 3.0.4
+- spec fixed for FHS 2.0
+
 * Fri Jan 15 1999 Arkadiusz Mi¶kiewicz <misiek@misiek.eu.org>
 [3.0.1-1d]
 - new upstream release
