@@ -59,7 +59,7 @@ autoconf
 %configure \
 	--with-threads 	\
 	--enable-ipv6
-make
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
