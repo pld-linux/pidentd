@@ -1,0 +1,11 @@
+--- pidentd-3.1a25/plib/aalloc.h.orig	2002-06-19 12:01:36.000000000 +0200
++++ pidentd-3.1a25/plib/aalloc.h	2005-03-27 16:21:38.237420648 +0200
+@@ -29,7 +29,7 @@
+ #endif
+ 
+ #define A_ALLOC(VAR)   a_malloc((VAR), #VAR)
+-#define A_NEW(VAR)     ((VAR) = a_malloc(sizeof((VAR)), #VAR))
++#define A_NEW(VAR)     ((VAR) = a_malloc(sizeof(*(VAR)), #VAR))
+ #define A_STRDUP(VAR)  a_strdup((VAR), #VAR)
+ 
+ 
