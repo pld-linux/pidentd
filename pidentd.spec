@@ -5,7 +5,7 @@ Summary(pl):	Demon Internetowy: autoryzacja, identyfikacja u¿ytkownika
 Summary(tr):	Internet kullanýcý saptama süreci
 Name:		pidentd
 Version:	3.1a22
-Release:	1
+Release:	2
 License:	Public Domain
 Group:		Networking/Daemons
 Source0:	ftp://ftp.lysator.liu.se/pub/ident/servers/test/%{name}-%{version}.tar.gz
@@ -15,6 +15,9 @@ BuildRequires:	autoconf
 Prereq:		rc-inetd >= 0.8.1
 Provides:	identserver
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Obsoletes:	linux-identd
+Obsoletes:	linux-identd-inetd
+Obsoletes:	linux-identd-standalone
 Obsoletes:	oidentd
 
 %define		_sysconfdir	/etc
@@ -66,8 +69,6 @@ install -d $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd
 install etc/identd.conf $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/pidentd
 
-gzip -9nf ChangeLog FAQ README TODO doc/rfc1413.txt
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -85,7 +86,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz doc/*.gz
+%doc ChangeLog FAQ README TODO
 %attr(755,root,root) %{_sbindir}/*
 %config(noreplace) %verify(not mtime md5 size) %{_sysconfdir}/identd.conf
 %attr(640,root,root) %config(noreplace) %verify(not mtime md5 size) /etc/sysconfig/rc-inetd/pidentd
