@@ -1,20 +1,20 @@
 Summary:     Internet Daemon: Authorization, User Identification
+Summary(de): Internet-Dämon: Autorisierung, User-Identifikation 
+Summary(fr): Démon Internet : autorisation, identification de l'utilisateur
+Summary(pl): Demon Internetowy: autoryzacja, identyfikacja u¿ytkownika
+Summary(tr): Internet kullanýcý saptama süreci
 Name:        pidentd
 Version:     3.1a14
 Release:     1
 URL:         ftp://ftp.lysator.liu.se/pub/ident/servers
-Source0:      %{name}-%{version}.tar.gz
-Source1:      %{name}.rc-inetd
+Source0:     %{name}-%{version}.tar.gz
+Source1:     %{name}.inetd
 #IPv6 patch: http://www.imasy.or.jp/~ume/ipv6/
 Patch:	     pidentd-3.1a14-ipv6-based-on-19990720.diff
 Copyright:   Public domain
 Group:       Networking
 Group(pl):   Sieciowe
 BuildRoot:   /tmp/%{name}-%{version}-%{release}-root
-Summary(de): Internet-Dämon: Autorisierung, User-Identifikation 
-Summary(fr): Démon Internet : autorisation, identification de l'utilisateur
-Summary(pl): Demon Internetowy: autoryzacja, identyfikacja u¿ytkownika
-Summary(tr): Internet kullanýcý saptama süreci
 
 %description
 identd is a program that implements the RFC1413 identification server.
