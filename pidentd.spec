@@ -6,7 +6,7 @@ Summary(tr):	Internet kullanýcý saptama süreci
 Name:		pidentd
 Version:	3.1a22
 Release:	1
-License:	Public domain
+License:	Public Domain
 Group:		Networking/Daemons
 Source0:	ftp://ftp.lysator.liu.se/pub/ident/servers/test/%{name}-%{version}.tar.gz
 Source1:	%{name}.inetd
