@@ -5,16 +5,16 @@ Summary(pl):	Demon Internetowy: autoryzacja, identyfikacja u¿ytkownika
 Summary(tr):	Internet kullanýcý saptama süreci
 Name:		pidentd
 Version:	3.1a14
-Release:	5
+Release:	6
+Copyright:	Public domain
 Group:		Networking
 Group(pl):	Sieciowe
-Copyright:	Public domain
 Source0:	ftp://ftp.lysator.liu.se/pub/ident/servers/test/%{name}-%{version}.tar.gz
 Source1:	%{name}.inetd
 Patch0:		http://www.imasy.or.jp/~ume/ipv6/pidentd-3.1a14-ipv6-based-on-19990720.diff
 Patch1:		pidentd-DESTDIR.patch
 Patch2:		pident-ip6-ip4-fix.patch
-Prereq:		rc-inetd
+Prereq:		rc-inetd >= 0.8.1
 BuildRoot:	/tmp/%{name}-%{version}-%{release}-root
 
 %define		_sysconfdir	/etc
@@ -76,14 +76,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 if [ -f /var/lock/subsys/rc-inetd ]; then
-	/etc/rc.d/init.d/rc-inetd restart 1>&2
+	/etc/rc.d/init.d/rc-inetd reload 1>&2
 else
 	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet sever" 1>&2
 fi
 
 %postun
 if [ -f /var/lock/subsys/rc-inetd ]; then
-	/etc/rc.d/init.d/rc-inetd restart
+	/etc/rc.d/init.d/rc-inetd reload
 fi
 
 %files
