@@ -12,9 +12,8 @@ Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
 Source0:	ftp://ftp.lysator.liu.se/pub/ident/servers/test/%{name}-%{version}.tar.gz
 Source1:	%{name}.inetd
-Patch0:		http://www.imasy.or.jp/~ume/ipv6/%{name}-3.1a14-ipv6-based-on-19990720.diff
-Patch1:		%{name}-DESTDIR.patch
-Patch2:		pident-ip6-ip4-fix.patch
+Patch0:		%{name}-DESTDIR.patch
+Patch1:		%{name}-ipv6.patch
 Prereq:		rc-inetd >= 0.8.1
 Provides:	identserver
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -55,13 +54,11 @@ Baðlantý kuran sürecin kullanýcý ismini geri döndürür.
 %setup  -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 autoconf
 %configure \
-	--with-threads 	\
-	--enable-ipv6
+	--with-threads
 %{__make}
 
 %install
@@ -71,7 +68,6 @@ install -d $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
 install etc/identd.conf $RPM_BUILD_ROOT%{_sysconfdir}
-
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/pidentd
 
 gzip -9nf ChangeLog FAQ README TODO doc/rfc1413.txt
