@@ -8,8 +8,6 @@ Version:	3.1a22
 Release:	1
 License:	Public domain
 Group:		Networking/Daemons
-Group(de):	Netzwerkwesen/Server
-Group(pl):	Sieciowe/Serwery
 Source0:	ftp://ftp.lysator.liu.se/pub/ident/servers/test/%{name}-%{version}.tar.gz
 Source1:	%{name}.inetd
 Patch0:		%{name}-DESTDIR.patch
