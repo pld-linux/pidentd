@@ -14,7 +14,7 @@ Source1:	%{name}.inetd
 Patch0:		http://www.imasy.or.jp/~ume/ipv6/pidentd-3.1a14-ipv6-based-on-19990720.diff
 Patch1:		pidentd-DESTDIR.patch
 Requires:	inetdaemon
-Requires:	rc-inetd
+Prereq:		rc-inetd
 BuildRoot:	/tmp/%{name}-%{version}-%{release}-root
 
 %define		_sysconfdir	/etc
