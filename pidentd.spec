@@ -6,7 +6,7 @@ URL:         ftp://ftp.lysator.liu.se/pub/ident/servers
 Source:      %{name}-%{version}.tar.gz
 Copyright:   Public domain
 Group:       Networking
-Group(pl):   Sieci
+Group(pl):   Sieciowe
 BuildRoot:   /tmp/%{name}-%{version}-%{release}-root
 Summary(de): Internet-Dämon: Autorisierung, User-Identifikation 
 Summary(fr): Démon Internet : autorisation, identification de l'utilisateur
