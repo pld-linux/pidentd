@@ -5,7 +5,7 @@ Summary(pl):	Demon Internetowy: autoryzacja, identyfikacja u¿ytkownika
 Summary(tr):	Internet kullanýcý saptama süreci
 Name:		pidentd
 Version:	3.1a14
-Release:	1
+Release:	2
 Group:		Networking
 Group(pl):	Sieciowe
 Copyright:	Public domain
@@ -74,11 +74,15 @@ gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/* ChangeLog FAQ README Y2K TODO doc/rfc
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/etc/rc.d/init.d/rc-inetd restart >&2
+if [ -f /var/lock/subsys/rc-inetd ]; then
+	/etc/rc.d/init.d/rc-inetd restart 1>&2
+else
+	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet sever" 1>&2
+fi
 
 %postun
-if [ "$1" = "0" ] ; then
-	/etc/rc.d/init.d/rc-inetd restart >&2
+if [ -f /var/lock/subsys/rc-inetd ]; then
+	/etc/rc.d/init.d/rc-inetd stop
 fi
 
 %files
