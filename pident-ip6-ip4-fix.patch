@@ -1,0 +1,11 @@
+--- src/k_linux.c~	Thu Dec 16 19:16:06 1999
++++ src/k_linux.c	Thu Dec 16 19:21:17 1999
+@@ -64,7 +64,7 @@
+     if (fp[FP_INET6] == NULL)
+     {
+ 	syslog(LOG_ERR, "fopen(\"/proc/net/tcp6\", \"r\"): %m");
+-	return -1;
++/*	return -1;*/
+     }
+ 
+     while ((fp[FP_INET] = fopen("/proc/net/tcp", "r")) == NULL &&
