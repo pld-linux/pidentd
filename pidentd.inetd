@@ -7,3 +7,4 @@ USER=nobody
 SERVER=tcpd
 DAEMON=/usr/sbin/identd
 DAEMONARGS="-e -i"
+GROUP=proc
