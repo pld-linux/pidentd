@@ -69,7 +69,7 @@ install etc/identd.conf $RPM_BUILD_ROOT/etc
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/pidentd
 
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/* ChangeLog FAQ README Y2K TODO doc/rfc1413.txt
+gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/* ChangeLog FAQ README TODO doc/rfc1413.txt
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -88,7 +88,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc {ChangeLog,FAQ,README,Y2K,TODO,doc/rfc1413.txt}.gz
+%doc {ChangeLog,FAQ,README,TODO,doc/rfc1413.txt}.gz
 %attr(755,root,root) %{_sbindir}/*
 %{_mandir}/man*/*
 %config(noreplace) %verify(not mtime md5 size) /etc/identd.conf
