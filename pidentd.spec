@@ -1,6 +1,6 @@
 Summary:     Internet Daemon: Authorization, User Identification
 Name:        pidentd
-Version:     3.0.4
+Version:     3.1a12
 Release:     1
 URL:         ftp://ftp.lysator.liu.se/pub/ident/servers
 Source:      %{name}-%{version}.tar.gz
@@ -41,9 +41,9 @@ kuran sürecin kullanýcý ismini geri döndürür.
 %setup -q
 
 %build
-CFLAGS="$RPM_OPT_FLAGS -w" LDFLAGS=-s \
+CFLAGS="$RPM_OPT_FLAGS" LDFLAGS=-s \
 	./configure \
-	--with-threads \
+	--with-threads 	\
 	--prefix=/usr \
 	--sysconfdir=/etc \
 	--mandir=/usr/share/man 
@@ -53,7 +53,7 @@ make
 rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT/{usr/{sbin,share/man/man8},etc}
-make prefix=$RPM_BUILD_ROOT/usr sysconfdir=$RPM_BUILD_ROOT/etc mandir=$RPM_BUILD_ROOT/usr/share/man install
+make prefix=$RPM_BUILD_ROOT/usr sysconfdir=$RPM_BUILD_ROOT/etc install mandir=$RPM_BUILD_ROOT/usr/share/man install
 
 install etc/identd.conf $RPM_BUILD_ROOT/etc
 
