@@ -1,36 +1,6 @@
-diff -Naur pidentd-3.1a19/Makefile.in pidentd-3.1a19-p/Makefile.in
---- pidentd-3.1a19/Makefile.in	Mon Oct 16 15:04:56 2000
-+++ pidentd-3.1a19-p/Makefile.in	Sun Apr 22 17:53:13 2001
-@@ -30,8 +30,8 @@
- 
- install: all
- 	@cd src ; $(MAKE) install
--	-mkdir -p $(mandir)/man8
--	$(INSTALL) -m 644 $(srcdir)/doc/identd.8 $(mandir)/man8
-+	-mkdir -p $(DESTDIR)$(mandir)/man8
-+	$(INSTALL) -m 644 $(srcdir)/doc/identd.8 $(DESTDIR)$(mandir)/man8
- 
- 
- clean mostlyclean distclean maintainer-clean dist sign upload version:
-diff -Naur pidentd-3.1a19/plib/Makefile.in pidentd-3.1a19-p/plib/Makefile.in
---- pidentd-3.1a19/plib/Makefile.in	Mon Oct 16 15:05:14 2000
-+++ pidentd-3.1a19-p/plib/Makefile.in	Sun Apr 22 17:52:33 2001
-@@ -44,9 +44,9 @@
- # Installing
- 
- install: $(LIBS)
--	-mkdir -p $(libdir)
-+	-mkdir -p $(DESTDIR)$(libdir)
- 	for P in $(LIBS) ; do \
--		$(INSTALL) -m 644 $${P} $(libdir); \
-+		$(INSTALL) -m 644 $${P} $(DESTDIR)$(libdir); \
- 	done
- 
- 
-diff -Naur pidentd-3.1a19/src/Makefile.in pidentd-3.1a19-p/src/Makefile.in
---- pidentd-3.1a19/src/Makefile.in	Mon Oct 16 14:55:10 2000
-+++ pidentd-3.1a19-p/src/Makefile.in	Sun Apr 22 17:52:33 2001
-@@ -66,9 +66,9 @@
+--- ./src/Makefile.in.org	Thu Sep  6 19:20:40 2001
++++ ./src/Makefile.in	Thu Sep  6 19:21:22 2001
+@@ -68,9 +68,9 @@
  # Installing
  
  install:	$(PROGRAMS)
@@ -38,7 +8,34 @@ diff -Naur pidentd-3.1a19/src/Makefile.in pidentd-3.1a19-p/src/Makefile.in
 +	-mkdir -p $(DESTDIR)$(sbindir)
  	for P in $(PROGRAMS) ; do \
 -		$(INSTALL) -m 755 $${P} $(sbindir); \
-+		$(INSTALL) -m 755 $${P} $(DESTDIR)$(sbindir); \
++		$(INSTALL) $${P} $(DESTDIR)$(sbindir); \
  	done
  #	-mkdir -p $(etcdir)
  #	$(INSTALL) -m 644 identd.conf $(etcdir)
+--- ./plib/Makefile.in.org	Thu Sep  6 19:19:35 2001
++++ ./plib/Makefile.in	Thu Sep  6 19:20:25 2001
+@@ -46,9 +46,9 @@
+ # Installing
+ 
+ install: $(GEN_LIBS)
+-	-mkdir -p $(libdir)
++	-mkdir -p $(DESTDIR)$(libdir)
+ 	for P in $(GEN_LIBS) ; do \
+-		$(INSTALL) -m 644 $${P} $(libdir); \
++		$(INSTALL) $${P} $(DESTDIR)$(libdir); \
+ 	done
+ 
+ 
+--- ./Makefile.in.org	Thu Sep  6 19:18:21 2001
++++ ./Makefile.in	Thu Sep  6 19:19:17 2001
+@@ -31,8 +31,8 @@
+ 
+ install: all
+ 	@cd src ; $(MAKE) install
+-	-mkdir -p $(mandir)/man8
+-	$(INSTALL) -m 644 $(srcdir)/doc/identd.8 $(mandir)/man8
++	-mkdir -p $(DESTDIR)$(mandir)/man8
++	$(INSTALL) $(srcdir)/doc/identd.8 $(DESTDIR)$(mandir)/man8
+ 
+ 
+ clean mostlyclean distclean maintainer-clean dist sign upload version:
