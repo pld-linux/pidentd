@@ -34,7 +34,7 @@ Il agit en regardant des connexions TCP/IP spécifiques et en renvoyant le
 nom de l'utilisateur du processus qui possède la connexion.
 
 %description -l pl
-Identd jest programem zgodnym z RFC1413 (serwer identyfikcji). Demon ten 
+Identd jest programem zgodnym z RFC1413 (serwer identyfikacji). Demon ten 
 sprawdza po³±czenia TCP/IP i weryfikuje nazwê u¿ytkownika procesu który
 tworzy po³±czenie. 
 
