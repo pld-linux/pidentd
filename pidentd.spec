@@ -13,7 +13,9 @@ Source0:	ftp://ftp.lysator.liu.se/pub/ident/servers/test/%{name}-%{version}.tar.
 Source1:	%{name}.inetd
 Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-ac_fix.patch
+URL:		http://www.lysator.liu.se/~pen/pidentd/
 BuildRequires:	autoconf
+BuildRequires:	automake
 PreReq:		rc-inetd >= 0.8.1
 Provides:	identserver
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -57,6 +59,12 @@ Baðlantý kuran sürecin kullanýcý ismini geri döndürür.
 %patch1 -p1
 
 %build
+cp -f /usr/share/automake/config.* aux
+cp -f /usr/share/automake/config.* plib/aux
+cd plib
+%{__autoconf}
+%{__autoheader}
+cd ..
 %{__autoconf}
 %configure
 %{__make}
