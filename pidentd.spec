@@ -9,14 +9,15 @@ Release:	1
 Group:		Networking
 Group(pl):	Sieciowe
 Copyright:	Public domain
-URL:		ftp://ftp.lysator.liu.se/pub/ident/servers
-Source0:	%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.lysator.liu.se/pub/ident/servers/test/%{name}-%{version}.tar.gz
 Source1:	%{name}.inetd
-#IPv6 patch:	http://www.imasy.or.jp/~ume/ipv6/
-Patch:		pidentd-3.1a14-ipv6-based-on-19990720.diff
+Patch0:		http://www.imasy.or.jp/~ume/ipv6/pidentd-3.1a14-ipv6-based-on-19990720.diff
+Patch1:		pidentd-DESTDIR.patch
 Requires:	inetdaemon
 Requires:	rc-inetd
 BuildRoot:	/tmp/%{name}-%{version}-%{release}-root
+
+%define		_sysconfdir	/etc
 
 %description
 identd is a program that implements the RFC1413 identification server.
@@ -46,26 +47,22 @@ identd RFC1413 ile tanýmlanmýþ sunucuyu gerçekleyen bir programdýr. Baðlantý
 kuran sürecin kullanýcý ismini geri döndürür.
 
 %prep
-%setup -q
-%patch -p1
+%setup  -q
+%patch0 -p1
+%patch1 -p1
 
 %build
 autoconf
 %configure \
 	--with-threads 	\
-	--enable-ipv6 \
-	--sysconfdir=/etc
+	--enable-ipv6
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd
 
-install -d $RPM_BUILD_ROOT/{usr/{sbin,share/man/man8},etc,etc/sysconfig/rc-inetd}
-make	prefix=$RPM_BUILD_ROOT%{_prefix} \
-	sbindir=$RPM_BUILD_ROOT%{_sbindir} \
-	sysconfdir=$RPM_BUILD_ROOT/etc \
-	mandir=$RPM_BUILD_ROOT%{_mandir} \
-	install
+make install DESTDIR=$RPM_BUILD_ROOT
 
 install etc/identd.conf $RPM_BUILD_ROOT/etc
 
@@ -76,10 +73,18 @@ gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/* ChangeLog FAQ README Y2K TODO doc/rfc
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+/etc/rc.d/init.d/rc-inetd restart >&2
+
+%postun
+if [ "$1" = "0" ] ; then
+	/etc/rc.d/init.d/rc-inetd restart >&2
+fi
+
 %files
 %defattr(644,root,root,755)
 %doc {ChangeLog,FAQ,README,Y2K,TODO,doc/rfc1413.txt}.gz
 %attr(755,root,root) %{_sbindir}/*
-%attr(644,root,root) %{_mandir}/man*/*
-%attr(644,root,root) %config(noreplace) %verify(not mtime md5 size) /etc/identd.conf
+%{_mandir}/man*/*
+%config(noreplace) %verify(not mtime md5 size) /etc/identd.conf
 %attr(640,root,root) /etc/sysconfig/rc-inetd/pidentd
