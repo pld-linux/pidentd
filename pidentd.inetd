@@ -6,4 +6,4 @@ FLAGS=nowait
 USER=root
 SERVER=/usr/sbin/identd
 DAEMON=/usr/sbin/identd
-DAEMONARGS="-e"
+DAEMONARGS="-e -i"
