@@ -23,6 +23,9 @@ Obsoletes:	linux-identd
 Obsoletes:	linux-identd-inetd
 Obsoletes:	linux-identd-standalone
 Obsoletes:	oidentd
+Obsoletes:      oidentd-standalone
+Obsoletes:      oidentd-inetd
+Obsoletes:	midentd
 
 %description
 identd is a program that implements the RFC1413 identification server.
