@@ -5,8 +5,8 @@ Summary(pl):	Demon Internetowy: autoryzacja, identyfikacja u¿ytkownika
 Summary(tr):	Internet kullanýcý saptama süreci
 Name:		pidentd
 Version:	3.1a14
-Release:	8
-Copyright:	Public domain
+Release:	9
+License:	Public domain
 Group:		Networking
 Group(pl):	Sieciowe
 Source0:	ftp://ftp.lysator.liu.se/pub/ident/servers/test/%{name}-%{version}.tar.gz
@@ -15,7 +15,9 @@ Patch0:		http://www.imasy.or.jp/~ume/ipv6/pidentd-3.1a14-ipv6-based-on-19990720.
 Patch1:		pidentd-DESTDIR.patch
 Patch2:		pident-ip6-ip4-fix.patch
 Prereq:		rc-inetd >= 0.8.1
+Prodides:	identserver
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Obsoletes:	oidentd
 
 %define		_sysconfdir	/etc
 
