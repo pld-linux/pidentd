@@ -4,8 +4,8 @@ Summary(fr):	Démon Internet : autorisation, identification de l'utilisateur
 Summary(pl):	Demon Internetowy: autoryzacja, identyfikacja u¿ytkownika
 Summary(tr):	Internet kullanýcý saptama süreci
 Name:		pidentd
-Version:	3.1a17
-Release:	1
+Version:	3.1a19
+Release:	0.1
 License:	Public domain
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
@@ -57,8 +57,7 @@ Baðlantý kuran sürecin kullanýcý ismini geri döndürür.
 
 %build
 autoconf
-%configure \
-	--with-threads
+%configure
 %{__make}
 
 %install
