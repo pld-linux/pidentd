@@ -9,6 +9,7 @@ Release:	2
 License:	Public Domain
 Group:		Networking/Daemons
 Source0:	ftp://ftp.lysator.liu.se/pub/ident/servers/test/%{name}-%{version}.tar.gz
+# Source0-md5:	943493b93d97db6322435810b22b0618
 Source1:	%{name}.inetd
 Patch0:		%{name}-DESTDIR.patch
 BuildRequires:	autoconf
