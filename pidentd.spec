@@ -18,15 +18,15 @@ Patch3:		%{name}-config.patch
 URL:		http://www.lysator.liu.se/~pen/pidentd/
 BuildRequires:	autoconf
 BuildRequires:	automake
-PreReq:		rc-inetd >= 0.8.1
+Requires:	rc-inetd >= 0.8.1
 Provides:	identserver
 Obsoletes:	linux-identd
 Obsoletes:	linux-identd-inetd
 Obsoletes:	linux-identd-standalone
 Obsoletes:	midentd
 Obsoletes:	oidentd
-Obsoletes:      oidentd-inetd
-Obsoletes:      oidentd-standalone
+Obsoletes:	oidentd-inetd
+Obsoletes:	oidentd-standalone
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -106,5 +106,5 @@ fi
 %doc ChangeLog FAQ README TODO
 %attr(755,root,root) %{_sbindir}/*
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/identd.conf
-%attr(640,root,root) %config(noreplace) %verify(not mtime md5 size) /etc/sysconfig/rc-inetd/pidentd
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/rc-inetd/pidentd
 %{_mandir}/man*/*
