@@ -1,8 +1,8 @@
 Summary:	Internet Daemon: Authorization, User Identification
-Summary(de):	Internet-Dämon: Autorisierung, User-Identifikation
-Summary(fr):	Démon Internet : autorisation, identification de l'utilisateur
-Summary(pl):	Demon Internetowy: autoryzacja, identyfikacja u¿ytkownika
-Summary(tr):	Internet kullanıcı saptama süreci
+Summary(de.UTF-8):   Internet-DÃ¤mon: Autorisierung, User-Identifikation
+Summary(fr.UTF-8):   DÃ©mon Internet : autorisation, identification de l'utilisateur
+Summary(pl.UTF-8):   Demon Internetowy: autoryzacja, identyfikacja uÅ¼ytkownika
+Summary(tr.UTF-8):   Internet kullanÄ±cÄ± saptama sÃ¼reci
 Name:		pidentd
 Version:	3.1a25
 Release:	3
@@ -35,29 +35,29 @@ identd is a program that implements the RFC1413 identification server.
 identd operates by looking up specific TCP/IP connections and
 returning the user name of the process owning the connection.
 
-%description -l de
+%description -l de.UTF-8
 identd ist ein Programm, das den RFC1413-Identifikations-Server
 implementiert. identd untersucht bestimmte TCP/IP-Verbindungen und
 gibt dann den Benutzernamen des Prozesses aus, der die Verbindung
 besitzt.
 
-%description -l fr
+%description -l fr.UTF-8
 identd est un programme qui implante le RFC1413 serveur
-d'identication. Il agit en regardant des connexions TCP/IP spécifiques
-et en renvoyant le nom de l'utilisateur du processus qui possède la
+d'identication. Il agit en regardant des connexions TCP/IP spÃ©cifiques
+et en renvoyant le nom de l'utilisateur du processus qui possÃ¨de la
 connexion.
 
-%description -l pl
+%description -l pl.UTF-8
 Identd jest programem zgodnym z RFC1413 (serwer identyfikacji). Demon
-ten sprawdza po³±czenia TCP/IP i weryfikuje nazwê u¿ytkownika procesu
-który tworzy po³±czenie.
+ten sprawdza poÅ‚Ä…czenia TCP/IP i weryfikuje nazwÄ™ uÅ¼ytkownika procesu
+ktÃ³ry tworzy poÅ‚Ä…czenie.
 
-Gdy u¿ywasz pidentda w wersji wykorzystuj±cej w±tki (threads) pamiêtaj
+Gdy uÅ¼ywasz pidentda w wersji wykorzystujÄ…cej wÄ…tki (threads) pamiÄ™taj
 o uruchamianiu go z inetd w trybie 'wait'.
 
-%description -l tr
-identd RFC1413 ile tanımlanmış sunucuyu gerçekleyen bir programdır.
-Bağlantı kuran sürecin kullanıcı ismini geri döndürür.
+%description -l tr.UTF-8
+identd RFC1413 ile tanÄ±mlanmÄ±ÅŸ sunucuyu gerÃ§ekleyen bir programdÄ±r.
+BaÄŸlantÄ± kuran sÃ¼recin kullanÄ±cÄ± ismini geri dÃ¶ndÃ¼rÃ¼r.
 
 %prep
 %setup -q
