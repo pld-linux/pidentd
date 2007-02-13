@@ -1,8 +1,8 @@
 Summary:	Internet Daemon: Authorization, User Identification
-Summary(de.UTF-8):   Internet-Dämon: Autorisierung, User-Identifikation
-Summary(fr.UTF-8):   Démon Internet : autorisation, identification de l'utilisateur
-Summary(pl.UTF-8):   Demon Internetowy: autoryzacja, identyfikacja użytkownika
-Summary(tr.UTF-8):   Internet kullanıcı saptama süreci
+Summary(de.UTF-8):	Internet-Dämon: Autorisierung, User-Identifikation
+Summary(fr.UTF-8):	Démon Internet : autorisation, identification de l'utilisateur
+Summary(pl.UTF-8):	Demon Internetowy: autoryzacja, identyfikacja użytkownika
+Summary(tr.UTF-8):	Internet kullanıcı saptama süreci
 Name:		pidentd
 Version:	3.1a25
 Release:	3
